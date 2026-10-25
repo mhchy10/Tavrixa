@@ -1,0 +1,740 @@
+
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-bg: #080b12;
+  --color-surface: #101621;
+  --color-surface-raised: #151e2c;
+  --color-border: #222d3d;
+  --color-text: #edf2fa;
+  --color-muted: #8b9bb0;
+  --color-accent: #63e6f4;
+  --color-positive: #48d6a0;
+  --color-negative: #ff7185;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--color-bg);
+  color-scheme: dark;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+::selection {
+  color: #080b12;
+  background: var(--color-accent);
+}
+
+
+
+
+/* Tavrixa Light Theme — soft, consistent, theme-aware */
+
+html:has([data-theme="light"]) {
+  color-scheme: light;
+  background: #eef2f7;
+}
+
+body:has([data-theme="light"]) {
+  background: #eef2f7;
+  color: #253449;
+}
+
+[data-theme="light"] {
+  --color-bg: #eef2f7;
+  --color-surface: #f8fafc;
+  --color-surface-raised: #e9eff6;
+  --color-border: #d4deea;
+  --color-text: #253449;
+  --color-muted: #64758b;
+  --color-accent: #087f9b;
+  --color-positive: #087f66;
+  --color-negative: #c43d58;
+}
+
+/* App background: avoid a blank white canvas */
+[data-theme="light"] [class*="bg-[#080b12]"],
+[data-theme="light"] [class*="bg-[#0a0f1c]"],
+[data-theme="light"] [class*="bg-[#0b1019]"],
+[data-theme="light"] [class*="bg-[#0e141f]"],
+[data-theme="light"] [class*="bg-[#101621]"],
+[data-theme="light"] [class*="bg-[#121a2e]"],
+[data-theme="light"] [class*="bg-[#151e2c]"],
+[data-theme="light"] [class*="bg-[#0d1420]"],
+[data-theme="light"] [class*="bg-[#111827]"],
+[data-theme="light"] [class*="bg-[#0f172a]"] {
+  background-color: #f8fafc !important;
+}
+
+/* Preserve a subtle visual hierarchy between nested panels */
+[data-theme="light"] [class*="bg-white/[0.025]"],
+[data-theme="light"] [class*="bg-white/[0.03]"],
+[data-theme="light"] [class*="bg-white/[0.04]"],
+[data-theme="light"] [class*="bg-white/[0.05]"],
+[data-theme="light"] [class*="bg-white/[0.06]"] {
+  background-color: #edf2f7 !important;
+}
+
+/* Primary text */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200,
+[data-theme="light"] .text-slate-300 {
+  color: #253449 !important;
+}
+
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] .text-slate-500 {
+  color: #64758b !important;
+}
+
+/* Borders */
+[data-theme="light"] [class*="border-white/"],
+[data-theme="light"] [class*="border-[#"] {
+  border-color: #d4deea !important;
+}
+
+/* Cyan text: readable, without losing Tavrixa's identity */
+[data-theme="light"] [class*="text-cyan-"] {
+  color: #087f9b !important;
+}
+
+/* Avoid globally recolouring every button on hover */
+[data-theme="light"] button:hover {
+  border-color: #b8c8da;
+}
+
+/* Neutralize hardcoded dark button backgrounds, not semantic action colours */
+[data-theme="light"] button[class*="bg-white/"],
+[data-theme="light"] button[class*="bg-[#080b12]"],
+[data-theme="light"] button[class*="bg-[#0a0f1c]"],
+[data-theme="light"] button[class*="bg-[#101621]"],
+[data-theme="light"] button[class*="bg-[#121a2e]"] {
+  background-color: #e9eff6 !important;
+}
+
+/* Selected cyan navigation items */
+[data-theme="light"] button[class*="bg-cyan-"],
+[data-theme="light"] button[class*="bg-[#38bdf8]"] {
+  background-color: #dcecf3 !important;
+  color: #16445a !important;
+}
+
+/* Inputs and search fields */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #f8fafc;
+  color: #253449;
+  border-color: #cbd7e5;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #78899e;
+}
+
+/* Keep semantic buy/sell and status colours intact */
+[data-theme="light"] .text-emerald-400,
+[data-theme="light"] .text-green-400 {
+  color: #087f66;
+}
+
+[data-theme="light"] .text-rose-400,
+[data-theme="light"] .text-red-400 {
+  color: #c43d58;
+}
+
+/* Market Intelligence summary layout */
+.market-intel-summary {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.5rem !important;
+}
+
+.market-intel-summary > div {
+  min-width: 0;
+  padding: 0.8rem 0.55rem !important;
+  border-radius: 0.9rem;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+.market-intel-summary > div p:first-child {
+  min-height: 0 !important;
+  display: block;
+  font-size: 0.68rem;
+  line-height: 0.95rem;
+  font-weight: 500;
+  color: #64758b;
+}
+
+.market-intel-summary > div p.mt-3 {
+  margin-top: 0.6rem !important;
+  font-size: 1.25rem !important;
+  line-height: 1.4rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+
+.market-intel-summary > div p.mt-2 {
+  margin-top: 0.35rem !important;
+  font-size: 0.68rem !important;
+  line-height: 1rem !important;
+  color: #64758b;
+}
+
+
+
+/* =====================================================
+   TAVRIXA — ABOUT PAGE LIGHT THEME
+   Preserve gradients, glow effects and hover animation.
+   ===================================================== */
+
+[data-theme="light"] .about-tavrixa {
+  color: #26364b;
+  --about-panel: #e8eef6;
+  --about-card: #f5f8fc;
+  --about-border: #d0dce9;
+  --about-text: #26364b;
+  --about-muted: #62758b;
+  --about-cyan: #087e99;
+}
+
+/* Hero: retain the cyan/violet atmospheric glow */
+[data-theme="light"] .about-tavrixa section {
+  border-color: var(--about-border);
+}
+
+[data-theme="light"] .about-tavrixa section.bg-\[\#0b1220\],
+[data-theme="light"] .about-tavrixa [class*="bg-[#0b1220]"] {
+  background-color: #e4edf6 !important;
+}
+
+[data-theme="light"] .about-tavrixa [class*="bg-[#101827]"],
+[data-theme="light"] .about-tavrixa [class*="bg-[#0e1523]"],
+[data-theme="light"] .about-tavrixa [class*="bg-[#0e1625]"],
+[data-theme="light"] .about-tavrixa [class*="bg-[#0a101a]"],
+[data-theme="light"] .about-tavrixa [class*="bg-[#0a111d]"],
+[data-theme="light"] .about-tavrixa [class*="bg-[#090f19]"] {
+  background-color: var(--about-card) !important;
+}
+
+/* Text: readable on pale surfaces */
+[data-theme="light"] .about-tavrixa .text-white,
+[data-theme="light"] .about-tavrixa .text-slate-100,
+[data-theme="light"] .about-tavrixa .text-slate-200,
+[data-theme="light"] .about-tavrixa .text-slate-300 {
+  color: var(--about-text) !important;
+}
+
+[data-theme="light"] .about-tavrixa .text-slate-400,
+[data-theme="light"] .about-tavrixa .text-slate-500 {
+  color: var(--about-muted) !important;
+}
+
+[data-theme="light"] .about-tavrixa .text-slate-600 {
+  color: #71849a !important;
+}
+
+[data-theme="light"] .about-tavrixa [class*="text-cyan-"] {
+  color: var(--about-cyan) !important;
+}
+
+/* Gradient headings: replace white gradient stops with dark,
+   readable tones without removing the gradient treatment */
+[data-theme="light"] .about-tavrixa .text-transparent.bg-clip-text {
+  background-image: linear-gradient(
+    110deg,
+    #087e99 0%,
+    #3569a8 52%,
+    #7662b5 100%
+  ) !important;
+  color: transparent !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: none;
+}
+
+/* Technology badges and nested chips */
+[data-theme="light"] .about-tavrixa [class*="bg-[#090f19]"],
+[data-theme="light"] .about-tavrixa [class*="bg-white/[0.025]"],
+[data-theme="light"] .about-tavrixa [class*="bg-white/[0.03]"],
+[data-theme="light"] .about-tavrixa [class*="bg-white/[0.04]"] {
+  background-color: #eaf0f7 !important;
+}
+
+[data-theme="light"] .about-tavrixa [class*="border-white/"] {
+  border-color: var(--about-border) !important;
+}
+
+/* Preserve coloured glows and their hover states */
+[data-theme="light"] .about-tavrixa [class*="blur-"] {
+  opacity: 0.75;
+}
+
+[data-theme="light"] .about-tavrixa .group:hover [class*="blur-"] {
+  opacity: 1;
+}
+
+/* Keep the disclosure distinct without a dark panel */
+[data-theme="light"] .about-tavrixa [class*="border-amber-300"] {
+  border-color: #ead9b1;
+}
+
+[data-theme="light"] .about-tavrixa [class*="text-amber-200"] {
+  color: #8b641e !important;
+}
+
+
+/* Header search: keep input blended into its wrapper */
+[data-theme="light"] header input[placeholder="Search stocks..."] {
+  background: transparent !important;
+  color: #253449 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] header input[placeholder="Search stocks..."]::placeholder {
+  color: #718198 !important;
+  opacity: 1;
+}
+
+
+
+/* About page — Project Team light theme only */
+[data-theme="light"] .about-team {
+  background: linear-gradient(135deg, #e5edf6 0%, #edf2f8 55%, #e3ebf5 100%) !important;
+  border-color: #d1dce9 !important;
+}
+
+[data-theme="light"] .about-team > .relative.grid > div {
+  background: #f5f8fc !important;
+  border-color: #d4deea !important;
+  box-shadow: 0 3px 12px rgba(35, 55, 80, 0.045);
+}
+
+[data-theme="light"] .about-team h2,
+[data-theme="light"] .about-team h3,
+[data-theme="light"] .about-team .text-white,
+[data-theme="light"] .about-team .text-slate-100 {
+  color: #26364b !important;
+}
+
+[data-theme="light"] .about-team .text-slate-400,
+[data-theme="light"] .about-team .text-slate-500,
+[data-theme="light"] .about-team .text-slate-600 {
+  color: #65778d !important;
+}
+
+[data-theme="light"] .about-team .text-cyan-300,
+[data-theme="light"] .about-team .text-cyan-200 {
+  color: #087e99 !important;
+}
+
+
+
+/* Tavrixa — Stock detail and research tabs: light theme */
+[data-theme="light"] .stock-detail-page {
+  color: #26364b;
+}
+
+/* Main panels and valuation/risk cards */
+[data-theme="light"] .stock-detail-page [class*="bg-[#0e1623]"],
+[data-theme="light"] .stock-detail-page [class*="bg-[#0e1623]"] {
+  background-color: #f5f8fc !important;
+  border-color: #d7e1ed !important;
+}
+
+[data-theme="light"] .stock-detail-page [class*="bg-[#0a101b]"] {
+  background-color: #edf2f8 !important;
+  border-color: #d4deea !important;
+}
+
+/* Sub-cards, metadata tiles and period selector */
+[data-theme="light"] .stock-detail-page [class*="bg-white/"] {
+  background-color: #eaf0f7 !important;
+}
+
+[data-theme="light"] .stock-detail-page [class*="border-white/"] {
+  border-color: #d4deea !important;
+}
+
+/* Text contrast */
+[data-theme="light"] .stock-detail-page .text-white,
+[data-theme="light"] .stock-detail-page .text-slate-100,
+[data-theme="light"] .stock-detail-page .text-slate-200,
+[data-theme="light"] .stock-detail-page .text-slate-300 {
+  color: #26364b !important;
+}
+
+[data-theme="light"] .stock-detail-page .text-slate-400,
+[data-theme="light"] .stock-detail-page .text-slate-500,
+[data-theme="light"] .stock-detail-page .text-slate-600 {
+  color: #65778d !important;
+}
+
+/* Cyan labels, active tabs and period buttons */
+[data-theme="light"] .stock-detail-page .text-cyan-300,
+[data-theme="light"] .stock-detail-page .text-cyan-200 {
+  color: #087e99 !important;
+}
+
+[data-theme="light"] .stock-detail-page [class*="bg-cyan-400/"],
+[data-theme="light"] .stock-detail-page [class*="bg-cyan-300/"] {
+  background-color: #d9f0f5 !important;
+}
+
+/* Research tables */
+[data-theme="light"] .stock-detail-page thead {
+  background-color: #e8eef6 !important;
+  color: #52647a !important;
+}
+
+[data-theme="light"] .stock-detail-page tbody tr {
+  border-color: #dce4ee !important;
+}
+
+[data-theme="light"] .stock-detail-page tbody td {
+  border-color: #dce4ee !important;
+}
+
+/* Research notes input */
+[data-theme="light"] .stock-detail-page textarea {
+  background-color: #edf2f8 !important;
+  border-color: #d4deea !important;
+  color: #26364b !important;
+}
+
+[data-theme="light"] .stock-detail-page textarea::placeholder {
+  color: #718198 !important;
+  opacity: 1;
+}
+
+/* Demo warnings: readable amber on a pale background */
+[data-theme="light"] .stock-detail-page [class*="text-amber-200"] {
+  color: #8a5700 !important;
+}
+
+[data-theme="light"] .stock-detail-page [class*="bg-amber-300/"] {
+  background-color: #fff4d6 !important;
+}
+
+[data-theme="light"] .stock-detail-page [class*="border-amber-300/"] {
+  border-color: #ead49c !important;
+}
+
+/* Keep the positive/negative numbers readable */
+[data-theme="light"] .stock-detail-page .text-emerald-400,
+[data-theme="light"] .stock-detail-page .text-emerald-300 {
+  color: #08794e !important;
+}
+
+[data-theme="light"] .stock-detail-page .text-rose-400,
+[data-theme="light"] .stock-detail-page .text-rose-300 {
+  color: #bd344b !important;
+}
+
+
+
+/* =========================================
+   PAPER TRADING — LIGHT THEME
+   ========================================= */
+
+[data-theme="light"] .paper-trading-page {
+  color: #26364b;
+}
+
+/* Main virtual-investing banner */
+[data-theme="light"] .paper-trading-page > section:first-child {
+  background: linear-gradient(135deg, #e1edf7, #edf3fa 55%, #e4eef8) !important;
+  border-color: #cbdbea !important;
+}
+
+[data-theme="light"] .paper-trading-page h1,
+[data-theme="light"] .paper-trading-page h2,
+[data-theme="light"] .paper-trading-page .text-white {
+  color: #26364b !important;
+}
+
+[data-theme="light"] .paper-trading-page .text-slate-300,
+[data-theme="light"] .paper-trading-page .text-slate-400,
+[data-theme="light"] .paper-trading-page .text-slate-500 {
+  color: #65778d !important;
+}
+
+[data-theme="light"] .paper-trading-page .text-cyan-300,
+[data-theme="light"] .paper-trading-page .text-cyan-200 {
+  color: #087e99 !important;
+}
+
+/* Cards, holdings, and history containers */
+[data-theme="light"] .paper-trading-page [class*="bg-[#121a2e]"],
+[data-theme="light"] .paper-trading-page [class*="bg-[#0d1424]"] {
+  background-color: #f5f8fc !important;
+  border-color: #d4deea !important;
+}
+
+[data-theme="light"] .paper-trading-page [class*="bg-[#0b1019]"],
+[data-theme="light"] .paper-trading-page [class*="bg-[#080d18]"] {
+  background-color: #eaf0f7 !important;
+}
+
+[data-theme="light"] .paper-trading-page [class*="bg-white/"] {
+  background-color: #eaf0f7 !important;
+}
+
+[data-theme="light"] .paper-trading-page [class*="border-white/"] {
+  border-color: #d4deea !important;
+}
+
+/* Buy/Sell selector: separate buttons, remove dark outer track */
+[data-theme="light"] .paper-trading-page .grid.grid-cols-2.gap-1.rounded-2xl {
+  background: #e5edf6 !important;
+  border-color: #d2deeb !important;
+  gap: 8px !important;
+}
+
+[data-theme="light"] .paper-trading-page button[aria-pressed="false"] {
+  color: #52657c !important;
+}
+
+[data-theme="light"] .paper-trading-page button[aria-pressed="false"]:hover {
+  background: #dce7f2 !important;
+  color: #26364b !important;
+}
+
+/* Inputs and dropdowns */
+[data-theme="light"] .paper-trading-page input,
+[data-theme="light"] .paper-trading-page select {
+  background-color: #fff !important;
+  border-color: #ccd8e6 !important;
+  color: #26364b !important;
+}
+
+[data-theme="light"] .paper-trading-page option {
+  background: #fff;
+  color: #26364b;
+}
+
+/* Order confirmation: modal backdrop and panel */
+[data-theme="light"] .paper-trading-page .fixed.inset-0 {
+  background-color: rgba(35, 49, 68, 0.35) !important;
+}
+
+[data-theme="light"] .paper-trading-page [role="dialog"] {
+  background: #f7f9fc !important;
+  border-color: #d1dce9 !important;
+  box-shadow: 0 24px 70px rgba(30, 48, 72, 0.22) !important;
+}
+
+[data-theme="light"] .paper-trading-page [role="dialog"] [class*="bg-white/"] {
+  background: #eaf0f7 !important;
+}
+
+[data-theme="light"] .paper-trading-page [role="dialog"] [class*="border-white/"] {
+  border-color: #d4deea !important;
+}
+
+/* =========================================
+   ACTIVITY LEDGER / TRADE HISTORY — LIGHT
+   ========================================= */
+
+[data-theme="light"] .trade-history-page {
+  color: #26364b;
+}
+
+[data-theme="light"] .trade-history-page > section:first-child {
+  background: linear-gradient(135deg, #e1edf7, #edf3fa 55%, #e4eef8) !important;
+  border-color: #cbdbea !important;
+}
+
+[data-theme="light"] .trade-history-page > section:nth-child(2) {
+  background: #f5f8fc !important;
+  border-color: #d4deea !important;
+}
+
+[data-theme="light"] .trade-history-page .text-white {
+  color: #26364b !important;
+}
+
+[data-theme="light"] .trade-history-page .text-slate-400,
+[data-theme="light"] .trade-history-page .text-slate-500 {
+  color: #65778d !important;
+}
+
+[data-theme="light"] .trade-history-page [class*="border-white/"],
+[data-theme="light"] .trade-history-page [class*="divide-white/"] {
+  border-color: #d4deea !important;
+}
+
+
+/* Paper Trading — demo-price notice */
+[data-theme="light"] .paper-trading-page [class*="text-amber-200"],
+[data-theme="light"] .paper-trading-page [class*="text-yellow-"] {
+  color: #805500 !important;
+}
+
+[data-theme="light"] .paper-trading-page [class*="bg-amber-"],
+[data-theme="light"] .paper-trading-page [class*="bg-yellow-"] {
+  background-color: #fff2c9 !important;
+}
+
+[data-theme="light"] .paper-trading-page [class*="border-amber-"],
+[data-theme="light"] .paper-trading-page [class*="border-yellow-"] {
+  border-color: #e7ce8b !important;
+}
+
+/* Reset Account button — Paper Trading */
+[data-theme="light"] .paper-trading-page .reset-account-btn {
+  color: #b42335 !important;
+  background: #fff0f1 !important;
+  border-color: #e6a5ad !important;
+}
+
+[data-theme="light"] .paper-trading-page .reset-account-btn:hover {
+  background: #ffe1e4 !important;
+  border-color: #d9828d !important;
+}
+
+[data-theme="dark"] .paper-trading-page .reset-account-btn {
+  color: #fecdd3 !important;
+  background: rgba(244, 63, 94, 0.1) !important;
+  border-color: rgba(251, 113, 133, 0.3) !important;
+}
+
+/* Paper Trading receipt — light theme */
+[data-theme="light"] .paper-trading-page .trade-receipt {
+  background: linear-gradient(135deg, #edf8f2, #f5f8fc) !important;
+  border-color: #c6e4d2 !important;
+  color: #26364b !important;
+}
+
+/* Receipt headings and values */
+[data-theme="light"] .paper-trading-page .trade-receipt .text-white {
+  color: #26364b !important;
+}
+
+[data-theme="light"] .paper-trading-page .trade-receipt .text-slate-400,
+[data-theme="light"] .paper-trading-page .trade-receipt .text-slate-500 {
+  color: #65778d !important;
+}
+
+/* Inner details panel */
+[data-theme="light"] .paper-trading-page .trade-receipt [class*="bg-black/"] {
+  background: #e5efe9 !important;
+}
+
+[data-theme="light"] .paper-trading-page .trade-receipt [class*="border-white/"] {
+  border-color: #d3e2d9 !important;
+}
+
+/* Keep the green success accents readable */
+[data-theme="light"] .paper-trading-page .trade-receipt .text-emerald-300 {
+  color: #08794e !important;
+}
+
+[data-theme="light"] .paper-trading-page .trade-receipt .bg-emerald-300\/10 {
+  background: #dcefe4 !important;
+}
+
+/* Discover Stocks + Stock Screener search inputs — light theme */
+[data-theme="light"] .stock-page-search {
+  background: transparent !important;
+  color: #26364b !important;
+  border-color: #d4deea !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .stock-page-search::placeholder {
+  color: #718198 !important;
+  opacity: 1;
+}
+
+[data-theme="light"] .stock-page-search:focus {
+  border-color: #0891b2 !important;
+  outline: none;
+}
+
+/* Notifications — Help & Support hover in light theme */
+[data-theme="light"] .notification-help-btn {
+  color: #52657c !important;
+}
+
+[data-theme="light"] .notification-help-btn:hover {
+  background: #e5edf6 !important;
+  color: #087e99 !important;
+}
+
+[data-theme="light"] .demonstration-data-title {
+  color: #92400e !important;
+}
+/* Market Intelligence — Market Watch light theme */
+[data-theme="light"] .market-intel-watch .market-watch-scroll {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+[data-theme="light"] .market-intel-watch .market-watch-table,
+[data-theme="light"] .market-intel-watch .market-watch-table thead,
+[data-theme="light"] .market-intel-watch .market-watch-table tbody,
+[data-theme="light"] .market-intel-watch .market-watch-table tr,
+[data-theme="light"] .market-intel-watch .market-watch-table th,
+[data-theme="light"] .market-intel-watch .market-watch-table td {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .market-intel-watch .market-watch-table tbody tr:hover {
+  background: #eaf2f8 !important;
+}
