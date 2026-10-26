@@ -337,18 +337,6 @@ body:has([data-theme="light"]) {
 }
 
 
-/* Header search: keep input blended into its wrapper */
-[data-theme="light"] header input[placeholder="Search stocks..."] {
-  background: transparent !important;
-  color: #253449 !important;
-  box-shadow: none !important;
-}
-
-[data-theme="light"] header input[placeholder="Search stocks..."]::placeholder {
-  color: #718198 !important;
-  opacity: 1;
-}
-
 
 
 /* About page — Project Team light theme only */

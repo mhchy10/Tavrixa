@@ -6251,20 +6251,7 @@ if (!session) {
                   Workspace <span className="mx-1.5">/</span>
                   <span className="text-slate-300">{active}</span>
                 </p>
-              </div>
-
-              <label className="hidden h-10 w-full max-w-[290px] items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 text-slate-500 transition focus-within:border-cyan-300/30 sm:flex">
-                <Search size={16} />
-                <input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search stocks..."
-                  className="min-w-0 flex-1 bg-transparent text-xs text-white outline-none placeholder:text-slate-600"
-                />
-                <span className="rounded border border-white/10 px-1.5 py-0.5 text-[9px]">
-                  /
-                </span>
-              </label>
+              </div>        
 
               <button
   type="button"
@@ -6297,17 +6284,7 @@ onClick={() => {
 </button>
             </div>
 
-            <div className="px-4 pb-3 sm:hidden">
-              <label className="flex h-10 items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 text-slate-500 focus-within:border-cyan-300/30">
-                <Search size={16} />
-                <input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search stocks..."
-                  className="min-w-0 flex-1 bg-transparent text-xs text-white outline-none placeholder:text-slate-600"
-                />
-              </label>
-            </div>
+           
           </header>
 
         {notificationsOpen && (

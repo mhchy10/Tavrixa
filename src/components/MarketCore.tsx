@@ -159,7 +159,7 @@ export default function MarketCore() {
           SYSTEM · 01
         </p>
         <p className="mt-1 text-[10px] text-slate-500">
-          Market core
+          Market Core
         </p>
       </div>
 
