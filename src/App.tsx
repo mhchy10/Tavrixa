@@ -39,7 +39,8 @@ ChartNoAxesCombined,
 NotebookPen,
 FlaskConical,
 ChartPie,
-Info
+Info,
+Save 
 } from 'lucide-react'
 
 
@@ -1707,7 +1708,6 @@ function ProfileSettings({
   profileName,
   setProfileName,
   profileEmail,
-  onClose,
   onSignOut,
   onSaveProfile,
 }: {
@@ -1739,7 +1739,7 @@ function ProfileSettings({
           </div>
           <div>
             <h2 className="text-lg font-medium text-white">
-              Personal profile
+              Personal Profile
             </h2>
             <p className="text-sm text-slate-400">
               Manage your display details
@@ -1750,7 +1750,7 @@ function ProfileSettings({
         <div className="mt-6 space-y-5">
           <div>
             <label className="mb-2 block text-sm text-slate-300">
-              Display name
+              Name
             </label>
             <input
               value={profileName}
@@ -1763,7 +1763,7 @@ function ProfileSettings({
 
           <div>
             <label className="mb-2 block text-sm text-slate-300">
-              Email Address
+              Email
             </label>
 
 
@@ -1784,7 +1784,8 @@ function ProfileSettings({
 
 
 
-    <div className="mt-6 flex items-center justify-between gap-3">
+ 
+<div className="mt-6 flex items-center justify-between gap-3">
   <button
     type="button"
     onClick={() => void onSignOut()}
@@ -1793,23 +1794,14 @@ function ProfileSettings({
     Sign Out
   </button>
 
-  <div className="flex gap-3">
-    <button
-      type="button"
-      onClick={() => void onSaveProfile()}
-      className="rounded-xl border border-cyan-300/20 px-5 py-3 text-sm font-medium text-cyan-200 transition hover:bg-cyan-300/10"
-    >
-      Save Profile
-    </button>
-
-    <button
-      type="button"
-      onClick={onClose}
-      className="rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
-    >
-      Done
-    </button>
-  </div>
+  <button
+    type="button"
+    onClick={() => void onSaveProfile()}
+    className="flex items-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
+  >
+    <Save size={16} />
+    Save
+  </button>
 </div>
 
 
@@ -2908,7 +2900,7 @@ async function resetAccount() {
           </div>
 
           <div>
-            <label className="text-xs text-slate-400">Quantity (Whole Shares)</label>
+            <label className="text-xs text-slate-400">Quantity</label>
             <input
               type="number"
               min="1"
@@ -2922,7 +2914,7 @@ async function resetAccount() {
 
         <div className="mt-5 rounded-xl border border-white/[0.06] bg-white/[0.025] p-4">
           <div className="flex justify-between gap-4 text-sm">
-            <span className="text-slate-400">Illustrative price per share</span>
+            <span className="text-slate-400">Price per share</span>
           <span className="text-white">
   {selectedStock ? money(selectedStock.price) : 'Price unavailable'}
 </span>
@@ -2985,7 +2977,7 @@ async function resetAccount() {
   : 'bg-rose-400 text-slate-950 shadow-lg shadow-rose-500/20 hover:bg-rose-300'
     }`}
   >
-    {side === 'BUY' ? 'Buy shares' : 'Sell shares'} · {symbol}
+    {side === 'BUY' ? 'Buy' : 'Sell'} · {symbol}
   </button>
 </div>
 
@@ -3197,7 +3189,7 @@ async function resetAccount() {
               id="order-review-title"
               className="text-2xl font-semibold text-white"
             >
-              Review {side === 'BUY' ? 'buy' : 'sell'}
+              Review {side === 'BUY' ? 'Buy' : 'Sell'}
             </h2>
             <p className="mt-1 text-sm text-slate-400">
              {selectedStock?.name ?? 'Unknown stock'}
@@ -3206,22 +3198,22 @@ async function resetAccount() {
         </div>
 
         <div className="mt-6 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
-          <p className="text-xs text-slate-400">Selected instrument</p>
+          <p className="text-xs text-slate-400">Selected Instrument</p>
           <p className="mt-1 text-lg font-semibold text-white">{symbol}</p>
 
           <div className="mt-5 space-y-4">
             <div className="flex justify-between gap-4 text-sm">
               <span className="text-slate-400">Order type</span>
               <span className={side === 'BUY' ? 'text-cyan-300' : 'text-rose-300'}>
-                {side} · Market simulation
+                {side} · Market
               </span>
             </div>
             <div className="flex justify-between gap-4 text-sm">
-              <span className="text-slate-400">Price per share</span>
+              <span className="text-slate-400">PPS</span>
               <span className="text-white">{selectedStock ? money(selectedStock.price) : 'Price unavailable'}</span>
             </div>
             <div className="flex justify-between gap-4 text-sm">
-              <span className="text-slate-400">Quantity</span>
+              <span className="text-slate-400">Qty</span>
               <span className="text-white">{quantity} shares</span>
             </div>
             <div className="border-t border-white/[0.08] pt-4">
@@ -3281,7 +3273,7 @@ async function resetAccount() {
   : 'bg-rose-400 text-slate-950 shadow-lg shadow-rose-500/20 hover:bg-rose-300'
     } ${!canConfirmOrder ? 'cursor-not-allowed opacity-40' : ''}`}
   >
-    Confirm {side.toLowerCase()}
+    Confirm
   </button>
 </div>
 
@@ -6431,8 +6423,9 @@ onClick={() => {
         return
       }
 
-      setProfileName(displayName)
-      window.alert('Profile saved successfully.')
+     setProfileName(displayName)
+window.alert('Profile saved successfully.')
+setProfileOpen(false)
     }}
 
   />
