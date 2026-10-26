@@ -79,7 +79,7 @@ export default function AuthPage() {
   return (
     <main className="auth-shell">
       <div className="auth-orb auth-orb-one" />
-      <div className="auth-orb auth-orb-two" />
+
 
       <header className="auth-topbar">
        <a className="auth-brand" href="/" aria-label="Tavrixa home">
@@ -160,7 +160,7 @@ export default function AuthPage() {
 
             <h2>
               {mode === 'login'
-                ? 'Sign in'
+                ? 'Sign In'
                 : mode === 'signup'
                   ? 'Create your account'
                   : 'Reset your password'}
@@ -175,72 +175,80 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {mode !== 'reset' && (
-            <div className="auth-mode-switch">
-              <button
-                type="button"
-                className={mode === 'login' ? 'active' : ''}
-                onClick={() => changeMode('login')}
-              >
-                Sign in
-              </button>
-              <button
-                type="button"
-                className={mode === 'signup' ? 'active' : ''}
-                onClick={() => changeMode('signup')}
-              >
-                Create account
-              </button>
-            </div>
-          )}
+         
+{mode !== 'reset' && (
+  <div
+    className={`auth-mode-switch ${mode === 'signup' ? 'signup-active' : ''}`}
+    role="group"
+    aria-label="Choose authentication mode"
+  >
+    <span className="auth-mode-slider" aria-hidden="true" />
+    <button
+      type="button"
+      className={mode === 'login' ? 'active' : ''}
+      aria-pressed={mode === 'login'}
+      onClick={() => changeMode('login')}
+    >
+      Sign in
+    </button>
+    <button
+      type="button"
+      className={mode === 'signup' ? 'active' : ''}
+      aria-pressed={mode === 'signup'}
+      onClick={() => changeMode('signup')}
+    >
+      Create account
+    </button>
+  </div>
+)}
+
 
           <form className="auth-form" onSubmit={handleSubmit}>
             {mode === 'signup' && (
-              <label>
-                <span>Display name</span>
-                <input
-                  type="text"
-                  autoComplete="name"
-                  placeholder="How should we address you?"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  required
-                  maxLength={80}
-                />
-              </label>
+            <label className="auth-input-field">
+  <input
+    type="text"
+    autoComplete="name"
+    placeholder="Display name"
+    aria-label="Display name"
+    value={name}
+    onChange={(event) => setName(event.target.value)}
+    required
+    maxLength={80}
+  />
+</label>
             )}
 
-            <label>
-              <span>Email address</span>
-              <input
-                type="email"
-                autoComplete="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </label>
-
+           <label className="auth-input-field">
+  <input
+    type="email"
+    autoComplete="email"
+    placeholder="Email address"
+    aria-label="Email address"
+    value={email}
+    onChange={(event) => setEmail(event.target.value)}
+    required
+  />
+</label>
             {mode !== 'reset' && (
-              <label>
-                <span>Password</span>
-                <input
-                  type="password"
-                  autoComplete={
-                    mode === 'signup' ? 'new-password' : 'current-password'
-                  }
-                  placeholder={
-                    mode === 'signup'
-                      ? 'At least 8 characters'
-                      : 'Enter your password'
-                  }
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  minLength={mode === 'signup' ? 8 : undefined}
-                  required
-                />
-              </label>
+             <label className="auth-input-field">
+  <input
+    type="password"
+    autoComplete={
+      mode === 'signup' ? 'new-password' : 'current-password'
+    }
+    placeholder={
+      mode === 'signup'
+        ? 'Password · 8 characters at least'
+        : 'Password'
+    }
+    aria-label="Password"
+    value={password}
+    onChange={(event) => setPassword(event.target.value)}
+    minLength={mode === 'signup' ? 8 : undefined}
+    required
+  />
+</label>
             )}
 
             {mode === 'login' && (
@@ -267,16 +275,25 @@ export default function AuthPage() {
               </div>
             )}
 
-            <button className="auth-submit" type="submit" disabled={loading}>
-              {loading
-                ? 'Please wait…'
-                : mode === 'login'
-                  ? 'Sign in to Tavrixa'
-                  : mode === 'signup'
-                    ? 'Create your account'
-                    : 'Send reset link'}
-              {!loading && <span>↗</span>}
-            </button>
+           
+<button className={`auth-submit auth-submit-${mode}`} type="submit" disabled={loading}>
+  <span>
+    {loading
+      ? 'Please wait…'
+      : mode === 'login'
+        ? 'Sign in to Tavrixa'
+        : mode === 'signup'
+          ? 'Create your account'
+          : 'Send reset link'}
+  </span>
+
+  {!loading && (
+    <span className="auth-submit-icon" aria-hidden="true">
+      {mode === 'login' ? '↗' : mode === 'signup' ? '＋' : '→'}
+    </span>
+  )}
+</button>
+
           </form>
 
           {mode === 'reset' ? (

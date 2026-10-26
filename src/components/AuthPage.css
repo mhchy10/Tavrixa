@@ -271,34 +271,93 @@
   line-height: 1.7;
 }
 
+
+
+/* Sliding authentication mode switch */
 .auth-mode-switch {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 25px;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  min-height: 46px;
   padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.045);
-  border-radius: 11px;
-  background: rgba(3, 7, 18, 0.48);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #0c101b;
+}
+
+.auth-mode-slider {
+  position: absolute;
+  z-index: -1;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 9px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.22),
+    rgba(109, 74, 190, 0.12)
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transform: translateX(0);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.auth-mode-switch.signup-active .auth-mode-slider {
+  transform: translateX(100%);
 }
 
 .auth-mode-switch button {
-  min-height: 36px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  color: #8996af;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 12px 10px;
+  border: 0;
+  border-radius: 9px;
   background: transparent;
+  color: #8992a7;
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.35px;
+  text-transform: uppercase;
+  white-space: nowrap;
   cursor: pointer;
-  font: inherit;
-  font-size: 11px;
-  transition: background 0.2s, color 0.2s;
+  transition: color 220ms ease;
 }
 
 .auth-mode-switch button.active {
-  border-color: rgba(148, 163, 184, 0.12);
-  color: #eef5ff;
-  background: #202a40;
+  color: #f3efff;
 }
+
+
+.auth-mode-switch button.active {
+  color: #f3efff;
+}
+
+.auth-mode-switch button:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: -3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-mode-slider,
+  .auth-mode-switch button {
+    transition: none;
+  }
+}
+
+
+
+
+
 
 .auth-form {
   display: grid;
@@ -570,11 +629,7 @@
 
 /* Ambient background glow */
 .auth-shell {
-  background:
-    radial-gradient(ellipse at 16% 38%, rgba(34, 211, 238, 0.11), transparent 34%),
-    radial-gradient(ellipse at 82% 58%, rgba(139, 92, 246, 0.13), transparent 36%),
-    radial-gradient(ellipse at 52% 100%, rgba(56, 189, 248, 0.055), transparent 42%),
-    var(--auth-bg);
+  background: #080b14;
 }
 
 .auth-orb {
@@ -815,33 +870,25 @@
   }
 }
 
-/* Futuristic typography for Tavrixa's core capabilities */
+
+
+/* Restrained feature typography */
 .auth-feature strong .auth-feature-highlight {
-  display: inline-block;
-  margin-left: 3px;
-  font-family: "Arial Black", Impact, sans-serif;
-  font-size: 1.2em;
-  font-weight: 900;
-  font-style: italic;
-  letter-spacing: -0.035em;
-  line-height: 1.15;
+  display: inline;
+  margin-left: 2px;
+  font: inherit;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: inherit;
+  color: #c4b5fd;
   text-shadow: none;
 }
 
-.auth-feature:nth-child(1) strong .auth-feature-highlight {
-  color: #00f5ff;
-  text-shadow: 0 0 10px rgba(0, 245, 255, 0.35);
-}
 
-.auth-feature:nth-child(2) strong .auth-feature-highlight {
-  color: #78a6ff;
-  text-shadow: 0 0 10px rgba(120, 166, 255, 0.3);
-}
 
-.auth-feature:nth-child(3) strong .auth-feature-highlight {
-  color: #d6a0ff;
-  text-shadow: 0 0 10px rgba(214, 160, 255, 0.3);
-}
+
+
+
 
 /* Responsive research-terminal label */
 .auth-top-note-mobile {
@@ -945,4 +992,405 @@
 
 .auth-lock {
   color: #c4b5fd;
+}
+
+
+
+/* Compact authentication intro on mobile */
+@media (max-width: 680px) {
+  .auth-intro h1 {
+    font-size: clamp(26px, 7vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -0.8px;
+    margin-bottom: 12px;
+  }
+
+  .auth-intro > p {
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 0;
+  }
+
+  .auth-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .auth-feature {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .auth-feature-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    border-radius: 9px;
+    font-size: 15px;
+  }
+
+  .auth-feature div {
+    min-width: 0;
+  }
+
+  .auth-feature strong {
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .auth-feature div > span {
+    display: none;
+  }
+
+  .auth-feature-list + p {
+    margin-top: 16px;
+    font-size: 10px;
+  }
+}
+
+
+
+/* Mobile intro spacing and feature alignment */
+@media (max-width: 680px) {
+  .auth-main {
+    padding-top: 12px;
+    row-gap: 24px;
+  }
+
+  .auth-intro {
+    margin-top: -8px;
+  }
+
+  .auth-intro h1 {
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+
+  .auth-intro > p {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  .auth-feature-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    margin-top: 28px;
+    margin-bottom: 15px;
+  }
+
+  .auth-feature {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .auth-feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    margin: 0;
+  }
+
+  .auth-feature > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .auth-feature strong {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: normal;
+  }
+
+  .auth-feature div > span {
+    display: none;
+  }
+
+  .auth-feature-list + p {
+    margin-top: 14px;
+  }
+}
+
+
+@media (max-width: 680px) {
+  .auth-intro .auth-disclaimer {
+    display: none;
+  }
+}
+
+
+
+/* Slightly raise the intro section on desktop */
+@media (min-width: 681px) {
+  .auth-main {
+    padding-top: 20px;
+  }
+
+  .auth-intro {
+    transform: translateY(-12px);
+  }
+}
+
+
+/* Elegant, lightweight authentication headings */
+.auth-card-heading h2 {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 21px;
+  font-weight: 400;
+  letter-spacing: 2.1px;
+  line-height: 0.7;
+  color: #e5e2ef;
+  margin-top: 20px;
+}
+
+@media (max-width: 680px) {
+  .auth-card-heading h2 {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1.8px;
+  }
+}
+
+/* Space between mode switch and form fields */
+.auth-mode-switch {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 680px) {
+  .auth-mode-switch {
+    margin-bottom: 16px;
+  }
+}
+
+
+
+/* Refined primary authentication buttons */
+.auth-submit {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 15px 18px;
+}
+
+
+
+/* Tighten the bottom of the authentication card */
+.auth-terms {
+  margin-top: 12px;
+  margin-bottom: 10px;
+  line-height: 2.4;
+  font-size: 11px;
+}
+
+.auth-card-footer {
+  margin-top: 12px;
+  padding-top: 12px;
+  line-height: 1.4;
+  font-size: 9px;
+  letter-spacing: 0.8px;
+}
+
+.auth-card {
+  gap: 0;
+}
+
+@media (max-width: 680px) {
+  .auth-terms {
+    margin-top: 9px;
+    margin-bottom: 8px;
+  }
+
+  .auth-card-footer {
+    margin-top: 9px;
+    padding-top: 9px;
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+}
+
+
+
+/* Consistent, compact authentication form spacing */
+.auth-mode-switch {
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-input-field {
+  display: block;
+  margin: 0;
+}
+
+.auth-input-field input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Keep the forgot-password link close to its field */
+.auth-forgot {
+  align-self: flex-end;
+  margin: 2px 0 -12px;
+}
+
+/* Smaller, more refined submit button */
+.auth-submit {
+  min-height: 42px;
+  padding: 11px 16px;
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  line-height: 1.2;
+}
+
+@media (max-width: 680px) {
+  .auth-mode-switch {
+    margin-bottom: 16px;
+  }
+
+  .auth-form {
+    gap: 9px;
+  }
+
+  .auth-submit {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+}
+
+
+@media (max-width: 680px) {
+  .auth-main {
+    row-gap: 32px;
+  }
+
+  .auth-intro {
+    padding-bottom: 4px;
+  }
+}
+
+
+
+/* Tavrixa premium submit buttons */
+.auth-submit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 11px;
+  background: linear-gradient(110deg, #7950d8, #6842bd);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(105, 66, 189, 0.16);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.auth-submit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.09);
+  font-size: 16px;
+  line-height: 1;
+  transition:
+    transform 220ms ease,
+    background 220ms ease;
+}
+
+.auth-submit-login:hover:not(:disabled) {
+  background: linear-gradient(110deg, #8b65e8, #7650d0);
+  border-color: rgba(196, 181, 253, 0.65);
+  box-shadow: 0 6px 22px rgba(139, 92, 246, 0.28);
+  transform: translateY(-1px);
+}
+
+.auth-submit-signup {
+  background: linear-gradient(110deg, #6842bd, #5140a4);
+}
+
+.auth-submit-signup:hover:not(:disabled) {
+  background: linear-gradient(110deg, #7950d8, #6352c2);
+  border-color: rgba(196, 181, 253, 0.65);
+  box-shadow: 0 6px 22px rgba(124, 91, 214, 0.28);
+  transform: translateY(-1px);
+}
+
+.auth-submit:hover:not(:disabled) .auth-submit-icon {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateX(2px);
+}
+
+.auth-submit:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(105, 66, 189, 0.18);
+}
+
+.auth-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-submit,
+  .auth-submit-icon {
+    transition: none;
+  }
+}
+
+
+
+/* Refined submit button typography */
+.auth-submit {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+.auth-submit > span:first-child {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+@media (max-width: 680px) {
+  .auth-submit {
+    font-size: 12px;
+    letter-spacing: 1.1px;
+  }
 }
