@@ -42,6 +42,7 @@ NotebookPen,
 FlaskConical,
 ChartPie,
 BrainCircuit,
+GraduationCap,
 Info,
 Save 
 } from 'lucide-react'
@@ -1830,36 +1831,6 @@ const features = [
   },
   {
     number: '02',
-    title: 'Market Intelligence',
-    description:
-      'Connect market movements, sector trends and stock-level insights to build a clearer picture of the market.',
-    icon: Activity,
-    accent: 'from-violet-400/20 to-fuchsia-500/5',
-    glow: 'group-hover:shadow-violet-400/10',
-    label: 'UNDERSTAND',
-  },
-  {
-    number: '03',
-    title: 'Paper Trading',
-    description:
-      'Practise trade decisions with virtual capital, track positions and evaluate outcomes without risking real money.',
-    icon: Wallet,
-    accent: 'from-emerald-400/20 to-teal-500/5',
-    glow: 'group-hover:shadow-emerald-400/10',
-    label: 'SIMULATE',
-  },
-  {
-    number: '04',
-    title: 'Portfolio Analytics',
-    description:
-      'Examine allocation, performance and risk to better understand how individual decisions shape a portfolio.',
-    icon: ChartNoAxesCombined,
-    accent: 'from-amber-400/20 to-orange-500/5',
-    glow: 'group-hover:shadow-amber-400/10',
-    label: 'EVALUATE',
-  },
-  {
-    number: '05',
     title: 'Automotive ML Intelligence',
     description:
       'Explore historical data from ten automobile companies, engineered market indicators and experimental next-day stock predictions.',
@@ -1869,14 +1840,44 @@ const features = [
     label: 'PREDICT',
   },
   {
-    number: '06',
+    number: '03',
     title: 'Model Evaluation',
     description:
       'Compare predicted and actual market movements through regression errors, classification metrics and stock-wise backtesting.',
-    icon: ChartNoAxesCombined,
+    icon: ChartPie,
     accent: 'from-sky-400/20 to-cyan-500/5',
     glow: 'group-hover:shadow-cyan-400/10',
     label: 'VALIDATE',
+  },
+  {
+    number: '04',
+    title: 'Market Intelligence',
+    description:
+      'Connect market movements, sector trends and stock-level insights to build a clearer picture of the market.',
+    icon: Activity,
+    accent: 'from-violet-400/20 to-fuchsia-500/5',
+    glow: 'group-hover:shadow-violet-400/10',
+    label: 'UNDERSTAND',
+  },
+  {
+    number: '05',
+    title: 'Paper Trading',
+    description:
+      'Practise trade decisions with virtual capital, track positions and evaluate outcomes without risking real money.',
+    icon: Wallet,
+    accent: 'from-emerald-400/20 to-teal-500/5',
+    glow: 'group-hover:shadow-emerald-400/10',
+    label: 'SIMULATE',
+  },
+  {
+    number: '06',
+    title: 'Portfolio Analytics',
+    description:
+      'Examine allocation, performance and risk to better understand how individual decisions shape a portfolio.',
+    icon: ChartNoAxesCombined,
+    accent: 'from-amber-400/20 to-orange-500/5',
+    glow: 'group-hover:shadow-amber-400/10',
+    label: 'EVALUATE',
   },
 ]
 
@@ -1906,7 +1907,7 @@ const technologyGroups = [
   {
     title: 'Deployment',
     status: 'ONLINE',
-    technologies: ['Production Hosting', 'Environment Configuration'],
+   technologies: ['Vercel', 'Render', 'Environment Configuration'],
   },
   {
     title: 'Machine Learning & Data',
@@ -1931,13 +1932,58 @@ const technologyGroups = [
 ]
 
 
-  const team = [
-    { number: '01', name: 'Mehdi Hussain Choudhury', initials: 'MHC' },
-    { number: '02', name: 'Eakbal Hussain Mozumdar', initials: 'EHM' },
-    { number: '03', name: 'Afsar Uddin Laskar', initials: 'AUL' },
-    { number: '04', name: 'Abu Numan Talukdar', initials: 'ANT' },
-    { number: '05', name: 'Mufidul Hasan Barbhuiya', initials: 'MHB' },
-  ]
+ const team = [
+  {
+    number: '01',
+    initials: 'MHC',
+    name: 'Mehdi Hussain Choudhury',
+    role: 'Project Lead & System Coordinator',
+    tag: 'PROJECT LEAD',
+    contribution:
+      'Led the overall project direction, planning and coordination. Oversaw system architecture, feature integration, technical decisions and deployment, bringing the different components together into a unified stock research platform.',
+    lead: true,
+  },
+  {
+    number: '02',
+    initials: 'EHM',
+    name: 'Eakbal Hussain Mozumdar',
+    role: 'Research & Requirements',
+    tag: 'RESEARCH',
+    contribution:
+      'Contributed to project research, requirement gathering, functional planning and identifying the core problems and features the platform aims to address.',
+    lead: false,
+  },
+  {
+    number: '05',
+    initials: 'MHB',
+    name: 'Mufidul Hasan Barbhuiya',
+    role: 'UI/UX & Interface Design',
+    tag: 'DESIGN',
+    contribution:
+      'Contributed to the user experience and interface design, including visual presentation, layout decisions, usability considerations and maintaining a consistent interface across the platform.',
+    lead: false,
+  },
+  {
+    number: '03',
+    initials: 'AUL',
+    name: 'Afsar Uddin Laskar',
+    role: 'Database & Data Management',
+    tag: 'DATA MANAGEMENT',
+    contribution:
+      'Contributed to database planning, data organisation, financial information requirements and the management of structured information used across the platform.',
+    lead: false,
+  },
+  {
+    number: '04',
+    initials: 'ANT',
+    name: 'Abu Numan Talukdar',
+    role: 'Testing, Validation & Documentation',
+    tag: 'QUALITY ASSURANCE',
+    contribution:
+      'Contributed to testing application workflows, validating feature behaviour, identifying issues and preparing project documentation to support the academic submission.',
+    lead: false,
+  },
+]
 
   return (
  <div className="about-tavrixa mx-auto max-w-6xl space-y-10 pb-6">
@@ -1959,9 +2005,7 @@ const technologyGroups = [
         </p>
 
         <p className="mt-6 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base sm:leading-8">
-          A student-developed stock research and investing platform concept
-          bringing company analysis, market intelligence, simulated trading
-          and portfolio insights into one connected workspace.
+         A student-developed stock research platform combining company analysis, market intelligence, portfolio simulation and exploratory machine learning.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -1969,9 +2013,20 @@ const technologyGroups = [
             <span className="size-1.5 rounded-full bg-cyan-300" />
             Academic Project · 2026
           </span>
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs text-slate-400">
-            Research · Simulate · Learn
-          </span>
+         <div className="flex flex-wrap items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs text-slate-400">
+  <span className="flex items-center gap-1.5">
+    <Search size={13} /> Research
+  </span>
+  <span className="flex items-center gap-1.5">
+    <ChartNoAxesCombined size={13} /> Simulate
+  </span>
+  <span className="flex items-center gap-1.5">
+    <BrainCircuit size={13} /> Predict
+  </span>
+  <span className="flex items-center gap-1.5">
+    <GraduationCap size={13} /> Learn
+  </span>
+</div>
         </div>
 
         <div className="pointer-events-none absolute bottom-7 right-8 hidden select-none font-mono text-[10px] tracking-[0.35em] text-cyan-300/[0.12] sm:block">
@@ -1993,10 +2048,7 @@ const technologyGroups = [
 
        <div className="mt-4 rounded-2xl border border-cyan-300/10 bg-gradient-to-br from-cyan-300/[0.06] via-white/[0.025] to-transparent p-5 sm:p-6">
   <p className="text-sm leading-7 text-slate-300">
-    A price alone rarely tells the whole story. Tavrixa brings company
-    fundamentals, valuation, market behaviour and portfolio simulation
-    into one focused workspace — helping turn scattered information
-    into more structured investment research.
+  A price alone rarely tells the whole story. Tavrixa brings company fundamentals, valuation, market behaviour, portfolio simulation and machine learning-driven market analysis into one focused workspace — helping transform scattered financial information into more structured research and informed investment exploration.
   </p>
 </div>
       </section>
@@ -2006,10 +2058,10 @@ const technologyGroups = [
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.23em] text-slate-500">
-              THE WORKSPACE
+              THE TERMINAL
             </p>
            <h2 className="mt-3 max-w-3xl text-2xl font-bold leading-tight tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-300 sm:text-3xl lg:text-4xl">
-  Four parts. One perspective.
+  Six lens. One perspective.
 </h2>
 <div className="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-cyan-300 to-blue-500" />
           </div>
@@ -2069,8 +2121,7 @@ const technologyGroups = [
   Powered by <span className="font-mono font-medium text-cyan-300">modern technology.</span>
 </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-           Built with modern frontend technologies, immersive visualisation,
-  data-driven research tools and a cloud-powered backend architecture.
+          Built with modern frontend technologies, interactive financial visualisations, data-driven research tools and an integrated Python-based machine learning engine, supported by cloud-hosted infrastructure.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -2113,60 +2164,97 @@ const technologyGroups = [
       </section>
 
       {/* TEAM */}
-    <section className="about-team relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#111d2c] via-[#0e1625] to-[#0a101a] p-6 sm:p-8">
+  
+      {/* PROJECT CONTRIBUTORS */}
+      <section className="about-team relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#111d2c] via-[#0e1625] to-[#0a101a] p-6 sm:p-8">
+
         <div className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-cyan-400/[0.06] blur-[80px]" />
 
-        <div className="relative mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-cyan-300">
-              THE PEOPLE
-            </p>
-           <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-  The Project <span className="text-cyan-300">Team.</span>
-</h2>
-            <p className="mt-2 text-sm text-slate-400">
-              Built collaboratively by five BVoc IT students.
-            </p>
-          </div>
+       <div className="relative mb-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+  <div className="min-w-0">
+    <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-cyan-300">
+      THE PEOPLE BEHIND TAVRIXA
+    </p>
 
-          <span className="w-fit rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-2 font-mono text-[10px] tracking-widest text-slate-400">
-            TEAM C / 2026
-          </span>
-        </div>
+    <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+      Project <span className="text-cyan-300">Contributors.</span>
+    </h2>
 
-        <div className="relative grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((member) => (
-            <div
-              key={member.number}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0a111d]/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/25 hover:bg-cyan-300/[0.025]"
-            >
-              <div className="pointer-events-none absolute -right-8 -top-8 size-24 rounded-full bg-cyan-300/[0.04] blur-2xl transition group-hover:bg-cyan-300/[0.12]" />
+   <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-400">
+  A collaborative academic project combining financial research,
+  system planning, data management, UI/UX design and quality assurance,
+  with an integrated machine learning engine for exploratory stock
+  analysis and predictive insights.
+</p>
+  </div>
 
-              <div className="flex items-center justify-between">
+  <span className="w-fit shrink-0 whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 font-mono text-[10px] tracking-widest text-slate-400">
+    ACADEMIC PROJECT / 2026
+  </span>
+</div>
+
+      <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+
+         {team.map((member, index) => (
+  <div
+    key={member.number}
+    className={`group relative overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 lg:col-span-2 ${
+      index === 3
+        ? 'lg:col-start-2'
+        : index === 4
+          ? 'lg:col-start-4'
+          : ''
+    } ${
+      member.lead
+        ? 'border-cyan-300/25 bg-[#102033]/90 hover:border-cyan-300/40'
+        : 'border-white/[0.07] bg-[#0a111d]/80 hover:border-cyan-300/25 hover:bg-cyan-300/[0.025]'
+    }`}
+  >
+
+              <div className="relative flex items-center justify-between">
                 <div className="flex size-12 items-center justify-center rounded-xl border border-cyan-300/20 bg-gradient-to-br from-cyan-300/15 to-blue-500/[0.03] font-mono text-xs font-bold tracking-wider text-cyan-200 transition group-hover:border-cyan-300/40">
                   {member.initials}
                 </div>
-                <span className="font-mono text-[10px] tracking-[0.2em] text-slate-600 group-hover:text-cyan-300/70">
-                  / {member.number}
-                </span>
+
+                <span
+  className={`rounded-full border px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] ${
+    member.lead
+      ? 'border-cyan-300/20 bg-cyan-300/[0.07] text-cyan-300'
+      : 'border-white/[0.08] bg-white/[0.03] text-slate-400'
+  }`}
+>
+  {member.tag}
+</span>
               </div>
 
               <h3 className="relative mt-5 min-h-12 text-sm font-semibold leading-6 text-slate-100">
                 {member.name}
               </h3>
 
-              <div className="mt-4 h-px bg-gradient-to-r from-cyan-300/30 via-white/[0.05] to-transparent" />
+              <p className="relative mt-2 min-h-10 text-[10px] font-semibold uppercase leading-5 tracking-[0.12em] text-cyan-300/80">
+                {member.role}
+              </p>
 
-              <p className="mt-3 text-[9px] uppercase tracking-[0.18em] text-slate-500">
-                BVIT · Team C
+              <div className="relative mt-4 h-px bg-gradient-to-r from-cyan-300/30 via-white/[0.05] to-transparent" />
+
+              <p className="relative mt-3 text-xs leading-6 text-slate-400">
+                {member.contribution}
               </p>
             </div>
           ))}
         </div>
 
-        <p className="relative mt-6 text-center text-xs text-slate-500">
-          NC College, Badarpur · Academic Project · 2026
-        </p>
+        <div className="relative mt-6 flex flex-col items-center justify-between gap-2 border-t border-white/[0.08] pt-5 text-center sm:flex-row sm:text-left">
+          <p className="text-xs text-slate-500">
+            NC College, Badarpur
+            <span className="mx-2 text-cyan-300">·</span>
+            B.Voc IT
+          </p>
+
+          <p className="font-mono text-[10px] tracking-widest text-slate-500">
+            TAVRIXA / 2026
+          </p>
+        </div>
       </section>
 
       {/* DISCLOSURE */}
@@ -2175,37 +2263,49 @@ const technologyGroups = [
           <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-amber-300/15 bg-amber-300/[0.05] text-amber-200">
             <span className="text-lg">ⓘ</span>
           </div>
+
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-200/80">
-              IMPORTANT INFORMATION
+              PROJECT DISCLAIMER
             </p>
+
             <h3 className="mt-2 font-semibold text-white">
               Educational use and data disclosure
             </h3>
-            <p className="mt-3 text-xs leading-6 text-slate-400 sm:text-sm">
-              Tavrixa is an academic stock research and portfolio simulation
-              project, not a brokerage or investment advisory service. Market
-              data, prices, analytics and research outputs may be simulated,
-              delayed, incomplete or inaccurate. Paper trades and strategy
-              calculations are hypothetical and do not represent actual
-              transactions or guarantee future results. Information provided
-              is for educational purposes only and is not personalized
-              financial advice or a recommendation to buy or sell securities.
-              Verify data independently before making investment decisions.
-            </p>
+
+           <p className="mt-3 text-xs leading-6 text-slate-400 sm:text-sm">
+  Tavrixa is an academic stock research, portfolio simulation and
+  machine learning project, not a brokerage or investment advisory
+  service. Market data, prices, analytics and research outputs may be
+  simulated, delayed, incomplete or inaccurate. Its Quant Engine uses
+  historical market data and machine learning models to explore stock
+  price movements and predict potential market direction and returns.
+  These predictions are experimental, may be inaccurate and should
+  not be treated as reliable forecasts or trading signals. Model
+  performance and historical backtesting results do not guarantee
+  future outcomes. Paper trades and strategy calculations are
+  hypothetical and do not represent actual transactions. All
+  information and outputs are provided for educational purposes only,
+  not as personalized financial advice or a recommendation to buy or
+  sell securities. Verify data independently before making investment
+  decisions.
+</p>
           </div>
         </div>
       </section>
 
-      {/* FOOTER + SUBTLE PERSONAL SIGNATURE */}
+      {/* FOOTER */}
       <footer className="group relative pb-2 pt-2 text-center">
         <div className="mx-auto mb-4 h-px max-w-xs bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
         <p className="text-xs text-slate-500">
           Tavrixa <span className="text-cyan-300">·</span> Clarity in every move
         </p>
+
         <p className="mt-2 text-[10px] text-slate-600">
-          An academic project by Team C · 2026
+          An academic project by the BVoc Information Technology team · 2026
         </p>
+
         <p
           title="MHCx — maker's mark"
           className="mt-3 select-none font-mono text-[9px] tracking-[0.35em] text-cyan-300/[0.15] transition duration-500 group-hover:text-cyan-300/70"
@@ -2213,6 +2313,7 @@ const technologyGroups = [
           MHCx · / 026
         </p>
       </footer>
+
     </div>
   )
 }
@@ -2362,17 +2463,22 @@ function TavrixaSettings({
       <section className="rounded-2xl border border-white/[0.08] bg-[#121a2e] p-6">
         <h2 className="font-semibold text-white">Data & Privacy</h2>
         <p className="mt-2 text-sm leading-6 text-slate-400">
-          Your current paper-trading balance, holdings, trade history,
-          watchlist and preferences are stored in this browser. They are
-          not a shared account or a server-synchronised portfolio.
+          Account information, including your profile and supported application data,
+  may be stored securely through Supabase. Certain preferences and application
+  states may also be retained locally in your browser. Data availability and
+  synchronisation depend on the feature and your account session.
         </p>
         <div className="mt-4 rounded-xl border border-amber-300/15 bg-amber-300/[0.04] p-4">
          <p className="demonstration-data-title text-sm font-medium text-amber-200">
-  Demonstration Data
+  Demonstration & Analytical Data
 </p>
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            Stock prices are illustrative and are not live market quotes.
-            Paper trading does not place real orders.
+            Market information may be historical, delayed, simulated or otherwise
+  limited in accuracy and availability. The Quant Engine uses historical
+  market data and experimental machine learning models to generate
+  exploratory predictions and analytical results. These outputs are not
+  guaranteed forecasts or trading signals. Paper trading is simulated and
+  does not place real market orders.
           </p>
         </div>
       </section>
@@ -5937,7 +6043,7 @@ const [notifications, setNotifications] = useState<AppNotification[]>(() => {
   return [{
     id: 'welcome',
     title: 'Welcome to Tavrixa',
-    message: 'Explore stocks, organise your research, and practise with paper trading.',
+    message: 'Explore fundamentals, analyse market behaviour, discover data-driven insights, experiment with machine learning predictions & practise through paper trading.',
     timestamp: 'Workspace update',
     read: false,
   }]
@@ -6557,6 +6663,14 @@ onToggleWatchlist={onToggleWatchlist}
           text: 'Practise simulated buy and sell transactions without using real money.'
         },
         {
+          title: 'Quant Engine Guide',
+          text: 'Understand ML predictions, model evaluation, historical data and backtesting.'
+        },
+        {
+          title: 'Data & Methodology',
+          text: 'Learn about market data, simulated values, analytical calculations and platform limitations.'
+        },
+        {
           title: 'Portfolio & Trade History',
           text: 'Review your simulated trading activity and track your decisions.'
         },
@@ -6593,8 +6707,33 @@ onToggleWatchlist={onToggleWatchlist}
             a: 'No. The paper trading account uses simulated funds. Trades and balances shown there do not represent real investments.'
           },
           {
+            q: 'What is the Quant Engine?',
+            a: 'Python-based ML analysis of automotive-sector stocks.'
+          },
+          {
+            q: 'What does the engine predict?',
+            a: 'Experimental next-day price direction and returns.'
+          },
+          {
+            q: 'Which ML models are used?',
+            a: '	Logistic Regression and Multiple Linear Regression.'
+          },
+          {
+            q: 'How is model performance evaluated?',
+            a: 'Accuracy, precision, recall, F1, ROC-AUC, MAE, RMSE and R².'
+          },
+          {
+            q: 'What is backtesting?',
+            a: 'Evaluating model predictions against historical observations.'
+          },
+         
+          {
             q: 'Are stock prices and financial data live?',
             a: 'Data availability depends on the specific feature and its data source. Do not assume every displayed price or financial figure is real-time; verify important information with an authoritative source.'
+          },
+          {
+            q: 'Where does the automotive market data come from?',
+            a: 'Historical market data collected using Yahoo Finance.'
           },
           {
             q: 'How do I add a stock to my watchlist?',
@@ -6665,8 +6804,7 @@ onToggleWatchlist={onToggleWatchlist}
     </section>
 
     <p className="text-center text-xs leading-relaxed text-slate-600">
-      Tavrixa is an investment research and simulation project, not a
-      brokerage, financial adviser, or guarantee of investment performance.
+     Tavrixa is an academic stock research, portfolio simulation and machine learning project, not a brokerage, financial advisory service or guarantee of investment performance. Its analytical outputs and ML predictions are experimental and should not be treated as financial advice or trading recommendations.
     </p>
   </div>
 

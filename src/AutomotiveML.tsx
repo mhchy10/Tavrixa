@@ -50,12 +50,44 @@ const decimal = (value: number) => value.toFixed(4);
 const chartTime = (date: string) =>
   Math.floor(new Date(date).getTime() / 1000) as UTCTimestamp;
 
+
+const SMA_OPTIONS = [
+  { period: 5, color: "#22d3ee" },
+  { period: 10, color: "#60a5fa" },
+  { period: 20, color: "#a78bfa" },
+  { period: 50, color: "#fbbf24" },
+  { period: 100, color: "#fb7185" },
+];
+
+
 // ---------------------------------------
 // HISTORICAL PRICE CHART
 // ---------------------------------------
-
 function HistoricalChart({ history }: { history: StockHistory }) {
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const [selectedRange, setSelectedRange] = useState("1Y");
+  const [selectedSMAs, setSelectedSMAs] = useState<number[]>([
+  5, 20, 50,
+]);
+
+  const ranges = [
+    { label: "1M", days: 22 },
+    { label: "3M", days: 66 },
+    { label: "6M", days: 126 },
+    { label: "1Y", days: 252 },
+    { label: "2Y", days: 504 },
+    { label: "All", days: Infinity },
+  ];
+
+  const selectedDays =
+    ranges.find((range) => range.label === selectedRange)?.days ??
+    252;
+
+  const visibleHistory =
+    selectedDays === Infinity
+      ? history.history
+      : history.history.slice(-selectedDays);
 
   useEffect(() => {
     const container = chartRef.current;
@@ -85,7 +117,7 @@ function HistoricalChart({ history }: { history: StockHistory }) {
       },
     });
 
-    const candles = history.history.map((row) => ({
+   const candles = visibleHistory.map((row) => ({
       time: chartTime(row.Date),
       open: row.Open,
       high: row.High,
@@ -104,29 +136,47 @@ function HistoricalChart({ history }: { history: StockHistory }) {
 
     candleSeries.setData(candles);
 
-    const movingAverages = [
-      { key: "SMA_5" as const, color: "#22d3ee" },
-      { key: "SMA_20" as const, color: "#a78bfa" },
-      { key: "SMA_50" as const, color: "#fbbf24" },
-    ];
+   const visibleDates = new Set(
+  visibleHistory.map((row) => row.Date)
+);
 
-    movingAverages.forEach(({ key, color }) => {
-      const series = chart.addSeries(LineSeries, {
-        color,
-        lineWidth: 2,
-        priceLineVisible: false,
-        lastValueVisible: false,
-      });
+const movingAverages = SMA_OPTIONS.filter(({ period }) =>
+  selectedSMAs.includes(period)
+);
 
-      series.setData(
-        history.history
-          .filter((row) => row[key] !== null)
-          .map((row) => ({
-            time: chartTime(row.Date),
-            value: row[key] as number,
-          }))
-      );
-    });
+movingAverages.forEach(({ period, color }) => {
+  const series = chart.addSeries(LineSeries, {
+    color,
+    lineWidth: 2,
+    priceLineVisible: false,
+    lastValueVisible: false,
+  });
+
+  const smaData = history.history.flatMap((row, index) => {
+    if (index + 1 < period || !visibleDates.has(row.Date)) {
+      return [];
+    }
+
+    const window = history.history.slice(
+      index - period + 1,
+      index + 1
+    );
+
+    const average =
+      window.reduce(
+        (sum, item) => sum + item["Adj Close"],
+        0
+      ) / period;
+
+    return [{
+      time: chartTime(row.Date),
+      value: average,
+    }];
+  });
+
+  series.setData(smaData);
+});
+
 
     // Volume histogram uses a separate price scale.
     const volumeSeries = chart.addSeries(
@@ -139,8 +189,8 @@ function HistoricalChart({ history }: { history: StockHistory }) {
       }
     );
 
-    volumeSeries.setData(
-      history.history.map((row) => ({
+   volumeSeries.setData(
+  visibleHistory.map((row) => ({
         time: chartTime(row.Date),
         value: row.Volume,
         color:
@@ -160,16 +210,70 @@ function HistoricalChart({ history }: { history: StockHistory }) {
     chart.timeScale().fitContent();
 
     return () => chart.remove();
-  }, [history]);
+ }, [history, visibleHistory, selectedSMAs]);
 
-  return (
-    <div>
-      <div className="mb-3 flex flex-wrap gap-4 text-xs">
-        <span className="text-cyan-400">● SMA 5</span>
-        <span className="text-violet-400">● SMA 20</span>
-        <span className="text-amber-400">● SMA 50</span>
-        <span className="text-slate-400">● Volume</span>
+ return (
+  <div>
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center gap-1 rounded-lg bg-white/[0.04] p-1">
+        {ranges.map((range) => (
+          <button
+            key={range.label}
+            onClick={() => setSelectedRange(range.label)}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+              selectedRange === range.label
+                ? "bg-cyan-400/15 text-cyan-400"
+                : "text-slate-400 hover:bg-white/[0.05] hover:text-white"
+            }`}
+          >
+            {range.label}
+          </button>
+        ))}
       </div>
+    </div>
+
+    <div className="mb-3 flex flex-wrap items-center gap-2">
+  <span className="mr-1 text-[11px] text-slate-500">
+    Moving averages
+  </span>
+
+  {SMA_OPTIONS.map(({ period, color }) => {
+    const active = selectedSMAs.includes(period);
+
+    return (
+      <button
+        key={period}
+        onClick={() =>
+          setSelectedSMAs((current) =>
+            active
+              ? current.filter((item) => item !== period)
+              : [...current, period].sort((a, b) => a - b)
+          )
+        }
+        className={`rounded-md border px-2.5 py-1 text-[11px] font-medium transition-colors ${
+          active
+            ? "border-white/15 bg-white/[0.07]"
+            : "border-white/[0.05] text-slate-500 hover:text-slate-300"
+        }`}
+        style={active ? { color } : undefined}
+      >
+        SMA {period}
+      </button>
+    );
+  })}
+</div>
+
+   <div className="mb-3 flex flex-wrap gap-4 text-xs">
+  {SMA_OPTIONS.filter(({ period }) =>
+    selectedSMAs.includes(period)
+  ).map(({ period, color }) => (
+    <span key={period} style={{ color }}>
+      ● SMA {period}
+    </span>
+  ))}
+
+  <span className="text-slate-400">● Volume</span>
+</div>
       <div ref={chartRef} className="w-full" />
     </div>
   );
@@ -340,12 +444,12 @@ export default function AutomotiveML() {
       setError("");
 
       try {
-        const [predictionData, historyData, backtestData] =
-          await Promise.all([
-            getMLPrediction(ticker),
-            getMLHistory(ticker, 250),
-            getMLBacktest(ticker, 200),
-          ]);
+       const [predictionData, historyData, backtestData] =
+  await Promise.all([
+    getMLPrediction(ticker),
+    getMLHistory(ticker, 2000),
+    getMLBacktest(ticker, 200),
+  ]);
 
         if (active) {
           setPrediction(predictionData);
