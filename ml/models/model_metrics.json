@@ -1,0 +1,54 @@
+{
+    "companies": 10,
+    "total_records": 4439,
+    "training_records": 3549,
+    "testing_records": 890,
+    "test_start_date": "2026-06-23",
+    "features": [
+        "daily_return",
+        "return_5d",
+        "ma_5_gap",
+        "ma_20_gap",
+        "ma_50_gap",
+        "volatility_5d",
+        "volatility_20d",
+        "volume_change",
+        "intraday_range",
+        "basket_return"
+    ],
+    "multiple_linear_regression": {
+        "model": {
+            "MAE": 0.012375273620533034,
+            "MSE": 0.00027061604533754443,
+            "RMSE": 0.016450411707235307,
+            "R2": -0.007951297378789413
+        },
+        "baseline": {
+            "MAE": 0.012358322613501184,
+            "RMSE": 0.0164217404877853,
+            "R2": -0.004440867447582653
+        }
+    },
+    "logistic_regression": {
+        "model": {
+            "Accuracy": 0.4966292134831461,
+            "Precision": 0.4749536178107607,
+            "Recall": 0.6080760095011877,
+            "F1": 0.5333333333333333,
+            "Confusion Matrix": [
+                [
+                    186,
+                    283
+                ],
+                [
+                    165,
+                    256
+                ]
+            ],
+            "ROC_AUC": 0.494512507027131
+        },
+        "baseline": {
+            "Accuracy": 0.4730337078651685
+        }
+    }
+}

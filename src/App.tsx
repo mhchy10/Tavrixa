@@ -1,3 +1,5 @@
+import AutomotiveML from './AutomotiveML';
+
 import AuthPage from './components/AuthPage'
 import { supabase } from './lib/supabase'
 import type { Session } from '@supabase/supabase-js'
@@ -39,6 +41,7 @@ ChartNoAxesCombined,
 NotebookPen,
 FlaskConical,
 ChartPie,
+BrainCircuit,
 Info,
 Save 
 } from 'lucide-react'
@@ -49,6 +52,7 @@ const navigation = [
 
   { label: 'Discover Stocks', icon: Compass, group: 'Workspace' },
   { label: 'Stock Screener', icon: Search, group: 'Workspace' },
+ { label: 'Quant Engine', icon: BrainCircuit, group: 'Workspace' },
   { label: 'Market Intelligence', icon: Newspaper, group: 'Workspace' },
 
   { label: 'Watchlists', icon: Bookmark, group: 'My investing' },
@@ -137,13 +141,12 @@ function Sidebar({
   onClose?.()
 }}
 
-
 className={`group flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left text-[13px] transition-all duration-300 ${
   selected
-    ? label === 'Paper Trading'
+    ? label === 'Paper Trading' || label === 'Quant Engine'
       ? 'border-cyan-300/25 bg-gradient-to-r from-cyan-300/[0.12] to-violet-400/[0.10] text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.10)]'
       : 'border-cyan-300/[0.12] bg-cyan-300/[0.08] text-cyan-200'
-    : label === 'Paper Trading'
+    : label === 'Paper Trading' || label === 'Quant Engine'
       ? 'border-violet-400/20 bg-violet-400/[0.05] text-slate-200 shadow-[inset_2px_0_0_rgba(167,139,250,0.65)] hover:bg-violet-400/[0.10] hover:text-white'
       : 'border-transparent text-slate-400 hover:bg-white/[0.04] hover:text-slate-100'
 }`}
@@ -1814,71 +1817,119 @@ function ProfileSettings({
 
 
 function AboutTavrixa() {
-  const features = [
-    {
-      number: '01',
-      title: 'Stock Research',
-      description:
-        'Explore companies, financial fundamentals, valuation metrics and business quality in one focused workspace.',
-      icon: Search,
-      accent: 'from-cyan-400/20 to-blue-500/5',
-      glow: 'group-hover:shadow-cyan-400/10',
-      label: 'DISCOVER',
-    },
-    {
-      number: '02',
-      title: 'Market Intelligence',
-      description:
-        'Connect market movements, sector trends and stock-level insights to build a clearer picture of the market.',
-      icon: Activity,
-      accent: 'from-violet-400/20 to-fuchsia-500/5',
-      glow: 'group-hover:shadow-violet-400/10',
-      label: 'UNDERSTAND',
-    },
-    {
-      number: '03',
-      title: 'Paper Trading',
-      description:
-        'Practise trade decisions with virtual capital, track positions and evaluate outcomes without risking real money.',
-      icon: Wallet,
-      accent: 'from-emerald-400/20 to-teal-500/5',
-      glow: 'group-hover:shadow-emerald-400/10',
-      label: 'SIMULATE',
-    },
-    {
-      number: '04',
-      title: 'Portfolio Analytics',
-      description:
-        'Examine allocation, performance and risk to better understand how individual decisions shape a portfolio.',
-      icon: ChartNoAxesCombined,
-      accent: 'from-amber-400/20 to-orange-500/5',
-      glow: 'group-hover:shadow-amber-400/10',
-      label: 'EVALUATE',
-    },
-  ]
+const features = [
+  {
+    number: '01',
+    title: 'Stock Research',
+    description:
+      'Explore companies, financial fundamentals, valuation metrics and business quality in one focused workspace.',
+    icon: Search,
+    accent: 'from-cyan-400/20 to-blue-500/5',
+    glow: 'group-hover:shadow-cyan-400/10',
+    label: 'DISCOVER',
+  },
+  {
+    number: '02',
+    title: 'Market Intelligence',
+    description:
+      'Connect market movements, sector trends and stock-level insights to build a clearer picture of the market.',
+    icon: Activity,
+    accent: 'from-violet-400/20 to-fuchsia-500/5',
+    glow: 'group-hover:shadow-violet-400/10',
+    label: 'UNDERSTAND',
+  },
+  {
+    number: '03',
+    title: 'Paper Trading',
+    description:
+      'Practise trade decisions with virtual capital, track positions and evaluate outcomes without risking real money.',
+    icon: Wallet,
+    accent: 'from-emerald-400/20 to-teal-500/5',
+    glow: 'group-hover:shadow-emerald-400/10',
+    label: 'SIMULATE',
+  },
+  {
+    number: '04',
+    title: 'Portfolio Analytics',
+    description:
+      'Examine allocation, performance and risk to better understand how individual decisions shape a portfolio.',
+    icon: ChartNoAxesCombined,
+    accent: 'from-amber-400/20 to-orange-500/5',
+    glow: 'group-hover:shadow-amber-400/10',
+    label: 'EVALUATE',
+  },
+  {
+    number: '05',
+    title: 'Automotive ML Intelligence',
+    description:
+      'Explore historical data from ten automobile companies, engineered market indicators and experimental next-day stock predictions.',
+    icon: BrainCircuit,
+    accent: 'from-fuchsia-400/20 to-violet-500/5',
+    glow: 'group-hover:shadow-violet-400/10',
+    label: 'PREDICT',
+  },
+  {
+    number: '06',
+    title: 'Model Evaluation',
+    description:
+      'Compare predicted and actual market movements through regression errors, classification metrics and stock-wise backtesting.',
+    icon: ChartNoAxesCombined,
+    accent: 'from-sky-400/20 to-cyan-500/5',
+    glow: 'group-hover:shadow-cyan-400/10',
+    label: 'VALIDATE',
+  },
+]
 
-  const technologyGroups = [
-    {
-      title: 'Frontend',
-       status: 'LIVE',
-      technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS'],
-    },
-    {
-      title: 'Interface & Visuals',
-        status: 'ACTIVE',
-      technologies: ['Lucide Icons', 'Motion', 'Three.js'],
-    },
-    {
-      title: 'Backend & Database',
-     status: 'CONNECTED',
-      technologies: ['Supabase', 'PostgreSQL', 'Authentication'],
-    },
-    {
-      title: 'Deployment',
-      status: 'ONLINE',
-      technologies: ['Production Hosting', 'Environment Configuration'],
-    },
-  ]
+
+
+const technologyGroups = [
+  {
+    title: 'Frontend',
+    status: 'LIVE',
+    technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS'],
+  },
+  {
+    title: 'Interface & Visuals',
+    status: 'ACTIVE',
+    technologies: [
+      'Lucide Icons',
+      'Motion',
+      'Three.js',
+      'Lightweight Charts',
+    ],
+  },
+  {
+    title: 'Backend & Database',
+    status: 'CONNECTED',
+    technologies: ['Supabase', 'PostgreSQL', 'Authentication'],
+  },
+  {
+    title: 'Deployment',
+    status: 'ONLINE',
+    technologies: ['Production Hosting', 'Environment Configuration'],
+  },
+  {
+    title: 'Machine Learning & Data',
+    status: 'IMPLEMENTED',
+    technologies: [
+      'Python',
+      'Pandas',
+      'NumPy',
+      'Scikit-learn',
+      'Joblib',
+    ],
+  },
+  {
+    title: 'Market Data & API',
+    status: 'INTEGRATED',
+    technologies: [
+      'yfinance',
+      'FastAPI',
+      'REST API',
+    ],
+  },
+]
+
 
   const team = [
     { number: '01', name: 'Mehdi Hussain Choudhury', initials: 'MHC' },
@@ -6622,11 +6673,13 @@ onToggleWatchlist={onToggleWatchlist}
 
 ) : active === 'About Tavrixa' ? (
   <AboutTavrixa />
+
 ) : active === 'Settings' ? (
   <TavrixaSettings
   theme={theme}
   setTheme={setTheme}
 />
+
 ) : active === 'Paper Trading' ? (
 
  
@@ -6639,25 +6692,36 @@ onToggleWatchlist={onToggleWatchlist}
 
 ) : active === 'Trade History' ? (
  <TradeHistoryPage userId={session.user.id} />
+
 ) : active === 'Market Intelligence' ? (
  <MarketIntelligence
   onSelectStock={setSelectedStock}
 />
 
+) : active === 'Quant Engine' ? (
+  <AutomotiveML />
+
 ) : active === 'Alerts' ? (
   <AlertsPage />
+
 ) : active === 'Portfolio' ? (
  <PortfolioPage userId={session.user.id} />
+
 ) : active === 'Transactions' ? (
   <TransactionsPage userId={session.user.id} />
+
 ) : active === 'Research & Compare' ? (
   <ResearchComparePage />
+
 ) : active === 'Investment Journal' ? (
   <InvestmentJournal userId={session.user.id} />
+
 ) : active === 'Trading Lab' ? (
   <TradingLabPage />
+
  ) : active === 'Portfolio Analytics' ? (
   <PortfolioAnalytics userId={session.user.id} />
+
 ) : (
   <motion.div
 

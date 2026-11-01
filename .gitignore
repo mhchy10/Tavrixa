@@ -27,3 +27,11 @@ dist-ssr
 # Environment variables
 .env
 .env.*
+
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
