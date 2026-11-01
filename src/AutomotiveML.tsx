@@ -117,6 +117,8 @@ function HistoricalChart({ history }: { history: StockHistory }) {
       },
     });
 
+    container.style.cursor = "crosshair";
+
    const candles = visibleHistory.map((row) => ({
       time: chartTime(row.Date),
       open: row.Open,

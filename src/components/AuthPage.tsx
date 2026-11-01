@@ -105,14 +105,13 @@ export default function AuthPage() {
           </span>
 
           <h1>
-            Research deeper.
+            Research better.
             <br />
             <span>Invest smarter.</span>
           </h1>
 
           <p>
-            A focused workspace for market discovery, company analysis,
-            valuation, and portfolio experimentation.
+          A focused workspace for market discovery, company analysis, quantitative insights, and portfolio experimentation.
           </p>
 
 
@@ -121,23 +120,23 @@ export default function AuthPage() {
     <span className="auth-feature-icon">⌕</span>
     <div>
      <strong>Research with <span className="auth-feature-highlight">Depth</span></strong>
-      <span>Explore company fundamentals, valuation, and financial strength.</span>
+      <span>Explore company fundamentals, valuation, financial strength, and historical market data.</span>
     </div>
   </div>
 
   <div className="auth-feature">
     <span className="auth-feature-icon">◈</span>
     <div>
-     <strong>Understand the <span className="auth-feature-highlight">Market</span></strong>
-      <span>Discover opportunities through market intelligence and stock screening.</span>
+     <strong>Understand the <span className="auth-feature-highlight">Markets</span></strong>
+      <span>Discover opportunities through market intelligence, stock screening, and technical analysis.</span>
     </div>
   </div>
 
   <div className="auth-feature">
     <span className="auth-feature-icon">↗</span>
     <div>
-      <strong>Test before you <span className="auth-feature-highlight">Invest</span></strong>
-      <span>Practice trades, track portfolio performance, and evaluate risk.</span>
+      <strong>Practice before <span className="auth-feature-highlight">Investing</span></strong>
+      <span>Practice trades, track portfolio, & explore machine-learning-powered stock predictions through the Quant Engine.</span>
     </div>
   </div>
 </div>
