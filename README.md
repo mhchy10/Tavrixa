@@ -36,6 +36,12 @@ The Quant Engine explores historical automotive-sector stock data using machine 
 
 ![Stock Screener](screenshots/05_screener.jpeg)
 
+### Nifty 50 Impact Analysis
+
+Historical analysis of relationships between selected automobile-sector stocks and Nifty 50 returns.
+
+![Nifty 50 Impact Analysis](screenshots/06_nifty_impact.jpeg)
+
 ---
 
 ## Key Features
@@ -47,7 +53,7 @@ The Quant Engine explores historical automotive-sector stock data using machine 
 - **Portfolio Analytics:** Track simulated portfolio performance, allocation, and profit/loss.
 - **Watchlists & Alerts:** Keep track of selected stocks and monitor relevant market movements.
 - **Research & Comparison:** Explore company information and compare stocks using available financial metrics.
-- **Quant Engine:** An experimental machine learning module for historical automotive-sector stock analysis and next-day prediction research.
+- **Quant Engine:** An experimental analytical module combining Logistic Regression and Multiple Linear Regression for automotive stock analysis, historical backtesting, model evaluation, and statistical analysis of relationships between selected automobile-sector stocks and Nifty 50 returns.
 
 ---
 
@@ -64,6 +70,19 @@ The workflow includes:
 3. **Model Development** – Applying Multiple Linear Regression and Logistic Regression approaches.
 4. **Prediction & Analysis** – Exposing model outputs and historical analysis through an API.
 5. **Frontend Integration** – Displaying results and historical charts inside Tavrixa.
+
+
+### Nifty 50 Impact Analysis
+
+Alongside its stock prediction models, the Quant Engine includes a separate statistical analysis module that examines historical relationships between ten selected automobile-sector companies and Nifty 50 returns.
+
+The analysis includes:
+
+- Pearson correlation analysis to examine historical relationships.
+- Standardized regression coefficients to study the relative statistical associations of selected stocks with Nifty 50 returns.
+- Historical index-return analysis and backtesting.
+
+This analysis identifies statistical relationships, not causation or actual index contribution weights.
 
 The Quant Engine is an experimental research component. Its outputs are not guaranteed predictions and should not be treated as financial advice.
 
@@ -89,21 +108,21 @@ The Quant Engine is an experimental research component. Its outputs are not guar
 
 Tavrixa uses a frontend application connected to backend services for authentication, data persistence, and machine learning functionality.
 
-```text
-                 TAVRIXA
-                    |
-          React + TypeScript
-                    |
-        -------------------------
-        |                       |
-     Supabase              Quant Engine API
-        |                       |
-  Authentication           Python + FastAPI
-  PostgreSQL                    |
-  User Data                ML Processing
-  RLS Policies                  |
-                          Prediction Results
-```
+                  TAVRIXA
+                     |
+              React + TypeScript
+                     |
+          -------------------------
+          |                       |
+       Supabase              Quant Engine API
+          |                       |
+    Authentication          Python + FastAPI
+    PostgreSQL                     |
+    User Data             ---------------------
+    RLS Policies           |                   |
+                     ML Processing      Statistical Analysis
+                          |                   |
+                  Stock Predictions    Nifty 50 Analysis
 
 - **React frontend:** Handles the user interface, navigation, charts, and application workflows.
 - **Supabase:** Provides authentication and database functionality for user-specific application data.

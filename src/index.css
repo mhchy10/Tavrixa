@@ -726,3 +726,25 @@ body:has([data-theme="light"]) {
 [data-theme="light"] .market-intel-watch .market-watch-table tbody tr:hover {
   background: #eaf2f8 !important;
 }
+
+/* Quant Engine — preserve readable text inside dark chart panels */
+[data-theme="light"] .quant-chart-panel .text-white {
+  color: #edf2fa !important;
+}
+
+[data-theme="light"] .quant-chart-panel .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .quant-chart-panel .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .quant-chart-panel .text-slate-500 {
+  color: #8493a8 !important;
+}
+
+/* Quant Engine — readable section headings in light theme */
+[data-theme="light"] .quant-section-heading {
+  color: #253449 !important;
+}

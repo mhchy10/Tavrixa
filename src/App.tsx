@@ -44,6 +44,7 @@ ChartPie,
 BrainCircuit,
 GraduationCap,
 Info,
+Network,
 Save 
 } from 'lucide-react'
 
@@ -1849,8 +1850,20 @@ const features = [
     glow: 'group-hover:shadow-cyan-400/10',
     label: 'VALIDATE',
   },
+  
   {
     number: '04',
+    title: 'Nifty 50 Impact Analysis',
+    description:
+      'Examine historical relationships between ten selected automobile stocks and Nifty 50 returns using Pearson correlation, standardized regression coefficients and out-of-sample index return analysis.',
+    icon: Network,
+    accent: 'from-cyan-400/20 to-blue-500/5',
+    glow: 'group-hover:shadow-cyan-400/10',
+    label: 'ANALYZE',
+  },
+
+  {
+    number: '05',
     title: 'Market Intelligence',
     description:
       'Connect market movements, sector trends and stock-level insights to build a clearer picture of the market.',
@@ -1860,7 +1873,7 @@ const features = [
     label: 'UNDERSTAND',
   },
   {
-    number: '05',
+    number: '06',
     title: 'Paper Trading',
     description:
       'Practise trade decisions with virtual capital, track positions and evaluate outcomes without risking real money.',
@@ -1870,7 +1883,7 @@ const features = [
     label: 'SIMULATE',
   },
   {
-    number: '06',
+    number: '07',
     title: 'Portfolio Analytics',
     description:
       'Examine allocation, performance and risk to better understand how individual decisions shape a portfolio.',
@@ -1918,6 +1931,9 @@ const technologyGroups = [
       'NumPy',
       'Scikit-learn',
       'Joblib',
+      'Multiple Linear Regression',
+    'Pearson Correlation',
+    'Standardized Regression',
     ],
   },
   {
@@ -1927,6 +1943,9 @@ const technologyGroups = [
       'yfinance',
       'FastAPI',
       'REST API',
+      'Historical Market Data',
+    'Nifty 50 Data',
+    'Automobile Stock Data',
     ],
   },
 ]
@@ -1954,7 +1973,7 @@ const technologyGroups = [
     lead: false,
   },
   {
-    number: '05',
+    number: '03',
     initials: 'MHB',
     name: 'Mufidul Hasan Barbhuiya',
     role: 'UI/UX & Interface Design',
@@ -1964,7 +1983,7 @@ const technologyGroups = [
     lead: false,
   },
   {
-    number: '03',
+    number: '04',
     initials: 'AUL',
     name: 'Afsar Uddin Laskar',
     role: 'Database & Data Management',
@@ -1974,7 +1993,7 @@ const technologyGroups = [
     lead: false,
   },
   {
-    number: '04',
+    number: '05',
     initials: 'ANT',
     name: 'Abu Numan Talukdar',
     role: 'Testing, Validation & Documentation',
@@ -2005,7 +2024,7 @@ const technologyGroups = [
         </p>
 
         <p className="mt-6 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base sm:leading-8">
-         A student-developed stock research platform combining company analysis, market intelligence, portfolio simulation and exploratory machine learning.
+        A student-developed stock research platform combining company fundamentals, valuation analysis, market intelligence, portfolio simulation and experimental machine learning for stock-level and historical index-return analysis.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -2048,7 +2067,7 @@ const technologyGroups = [
 
        <div className="mt-4 rounded-2xl border border-cyan-300/10 bg-gradient-to-br from-cyan-300/[0.06] via-white/[0.025] to-transparent p-5 sm:p-6">
   <p className="text-sm leading-7 text-slate-300">
-  A price alone rarely tells the whole story. Tavrixa brings company fundamentals, valuation, market behaviour, portfolio simulation and machine learning-driven market analysis into one focused workspace — helping transform scattered financial information into more structured research and informed investment exploration.
+ A price alone rarely tells the whole story. Tavrixa brings company fundamentals, valuation metrics, market behaviour, portfolio simulation and historical market analysis into one focused workspace. Its research and Quant Engine capabilities help explore individual stock movements, automobile-sector relationships and historical Nifty 50 return patterns through data-driven analysis.
   </p>
 </div>
       </section>
@@ -2061,11 +2080,11 @@ const technologyGroups = [
               THE TERMINAL
             </p>
            <h2 className="mt-3 max-w-3xl text-2xl font-bold leading-tight tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-300 sm:text-3xl lg:text-4xl">
-  Six lens. One perspective.
+  Seven lens. One perspective.
 </h2>
 <div className="mt-4 h-1 w-16 rounded-full bg-gradient-to-r from-cyan-300 to-blue-500" />
           </div>
-          <span className="font-mono text-xs text-slate-600">01 — 04</span>
+          <span className="font-mono text-xs text-slate-600">01 — 07</span>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -2121,7 +2140,7 @@ const technologyGroups = [
   Powered by <span className="font-mono font-medium text-cyan-300">modern technology.</span>
 </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-          Built with modern frontend technologies, interactive financial visualisations, data-driven research tools and an integrated Python-based machine learning engine, supported by cloud-hosted infrastructure.
+        Built with a React and TypeScript frontend, a Python FastAPI backend and data-driven machine learning tools using Pandas, NumPy and Scikit-learn. Interactive financial visualisations, Supabase-powered authentication and database services, and cloud deployment infrastructure bring the platform's components together.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -2181,10 +2200,7 @@ const technologyGroups = [
     </h2>
 
    <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-400">
-  A collaborative academic project combining financial research,
-  system planning, data management, UI/UX design and quality assurance,
-  with an integrated machine learning engine for exploratory stock
-  analysis and predictive insights.
+ A collaborative academic project bringing together financial research, requirements planning, system development, database management, interface design, testing and documentation. The project also integrates experimental machine learning capabilities for historical stock analysis and Nifty 50 return research.
 </p>
   </div>
 
@@ -2193,18 +2209,18 @@ const technologyGroups = [
   </span>
 </div>
 
-      <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+    <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-6">
 
          {team.map((member, index) => (
   <div
     key={member.number}
-    className={`group relative overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 lg:col-span-2 ${
-      index === 3
-        ? 'lg:col-start-2'
-        : index === 4
-          ? 'lg:col-start-4'
-          : ''
-    } ${
+   className={`group relative overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 xl:col-span-2 ${
+  index === 3
+    ? 'xl:col-start-2'
+    : index === 4
+      ? 'sm:col-span-2 sm:mx-auto sm:w-1/2 xl:col-span-2 xl:col-start-4 xl:w-auto'
+      : ''
+} ${
       member.lead
         ? 'border-cyan-300/25 bg-[#102033]/90 hover:border-cyan-300/40'
         : 'border-white/[0.07] bg-[#0a111d]/80 hover:border-cyan-300/25 hover:bg-cyan-300/[0.025]'
@@ -2274,21 +2290,9 @@ const technologyGroups = [
             </h3>
 
            <p className="mt-3 text-xs leading-6 text-slate-400 sm:text-sm">
-  Tavrixa is an academic stock research, portfolio simulation and
-  machine learning project, not a brokerage or investment advisory
-  service. Market data, prices, analytics and research outputs may be
-  simulated, delayed, incomplete or inaccurate. Its Quant Engine uses
-  historical market data and machine learning models to explore stock
-  price movements and predict potential market direction and returns.
-  These predictions are experimental, may be inaccurate and should
-  not be treated as reliable forecasts or trading signals. Model
-  performance and historical backtesting results do not guarantee
-  future outcomes. Paper trades and strategy calculations are
-  hypothetical and do not represent actual transactions. All
-  information and outputs are provided for educational purposes only,
-  not as personalized financial advice or a recommendation to buy or
-  sell securities. Verify data independently before making investment
-  decisions.
+ 
+Tavrixa is an academic stock research, portfolio simulation and machine learning project, not a brokerage or investment advisory service. Market data, prices, analytics and research outputs may be simulated, delayed, incomplete or inaccurate. Its Quant Engine includes experimental automobile-stock machine learning models and a separate Nifty 50 Impact Analysis module. The automobile-stock models explore historical stock data and generate experimental next-day predictions. The Nifty 50 module uses historical data from ten selected automobile-sector stocks to examine statistical relationships with Nifty 50 returns and evaluate out-of-sample index return predictions. These analyses are based on historical observations and do not establish causation, actual index contribution weights or reliable future predictive performance. Model evaluation and historical backtesting results do not guarantee future outcomes. Paper trades and strategy calculations are hypothetical and do not represent actual transactions. All information and outputs are provided for educational purposes only, not as personalized financial advice or a recommendation to buy or sell securities. Verify data independently before making investment decisions.
+
 </p>
           </div>
         </div>
@@ -2461,24 +2465,16 @@ function TavrixaSettings({
       </section>
 
       <section className="rounded-2xl border border-white/[0.08] bg-[#121a2e] p-6">
-        <h2 className="font-semibold text-white">Data & Privacy</h2>
+        <h2 className="font-semibold text-white">Account & Application Data</h2>
         <p className="mt-2 text-sm leading-6 text-slate-400">
-          Account information, including your profile and supported application data,
-  may be stored securely through Supabase. Certain preferences and application
-  states may also be retained locally in your browser. Data availability and
-  synchronisation depend on the feature and your account session.
+        Account information, including profile details and supported application data, may be stored securely through Supabase. Certain preferences and application states may also be retained locally in your browser. Data availability, persistence and synchronisation depend on the feature and your account session.
         </p>
         <div className="mt-4 rounded-xl border border-amber-300/15 bg-amber-300/[0.04] p-4">
          <p className="demonstration-data-title text-sm font-medium text-amber-200">
   Demonstration & Analytical Data
 </p>
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            Market information may be historical, delayed, simulated or otherwise
-  limited in accuracy and availability. The Quant Engine uses historical
-  market data and experimental machine learning models to generate
-  exploratory predictions and analytical results. These outputs are not
-  guaranteed forecasts or trading signals. Paper trading is simulated and
-  does not place real market orders.
+           Market information may be historical, delayed, simulated or otherwise limited in accuracy and availability. The Quant Engine includes experimental automobile-stock prediction models and a separate Nifty 50 Impact Analysis module that examines historical relationships between ten selected automobile-sector stocks and Nifty 50 returns. Its predictions and analytical results are experimental, may be inaccurate and are not guaranteed forecasts or trading signals. Statistical relationships do not establish causation or actual index contribution weights. Paper trading is simulated and does not place real market orders.
           </p>
         </div>
       </section>
@@ -6656,23 +6652,23 @@ onToggleWatchlist={onToggleWatchlist}
       {[
         {
           title: 'Getting Started',
-          text: 'Discover companies, explore available research, and add stocks to your watchlist.'
+          text: 'Discover companies, explore financial research, understand market insights and organise stocks in your watchlists.'
         },
         {
           title: 'Paper Trading',
-          text: 'Practise simulated buy and sell transactions without using real money.'
+          text: 'Practise simulated buy and sell transactions, manage virtual positions and review trading decisions without risking real money.'
         },
         {
           title: 'Quant Engine Guide',
-          text: 'Understand ML predictions, model evaluation, historical data and backtesting.'
+          text: 'Explore experimental automobile-stock ML predictions, Nifty 50 historical return analysis, model evaluation and backtesting.'
         },
         {
           title: 'Data & Methodology',
-          text: 'Learn about market data, simulated values, analytical calculations and platform limitations.'
+          text: 'Understand historical market data, feature engineering, statistical relationships, analytical calculations and platform limitations.'
         },
         {
           title: 'Portfolio & Trade History',
-          text: 'Review your simulated trading activity and track your decisions.'
+          text: 'Review simulated trading activity, monitor portfolio performance and examine your transaction history.'
         },
         {
           title: 'Investment Journal',
@@ -6725,6 +6721,15 @@ onToggleWatchlist={onToggleWatchlist}
           {
             q: 'What is backtesting?',
             a: 'Evaluating model predictions against historical observations.'
+          },
+
+          {
+            q: 'What is the Nifty 50 Impact Analysis module?',
+            a: 'It is an experimental machine learning module that examines historical relationships between ten selected automobile-sector stocks and Nifty 50 returns. It uses Multiple Linear Regression to generate historical out-of-sample index-return predictions and evaluates them against a mean-return baseline.'
+          },
+          {
+            q: 'What do correlation and regression coefficients indicate in Nifty 50 analysis?',
+            a: 'Pearson correlation and standardized regression coefficients help examine statistical relationships between selected automobile stocks and Nifty 50 returns. They indicate association within the analysed historical data, not causation or actual index contribution weights.'
           },
          
           {
@@ -6804,7 +6809,7 @@ onToggleWatchlist={onToggleWatchlist}
     </section>
 
     <p className="text-center text-xs leading-relaxed text-slate-600">
-     Tavrixa is an academic stock research, portfolio simulation and machine learning project, not a brokerage, financial advisory service or guarantee of investment performance. Its analytical outputs and ML predictions are experimental and should not be treated as financial advice or trading recommendations.
+    Tavrixa is an academic stock research, portfolio simulation and machine learning project, not a brokerage, financial advisory service or guarantee of investment performance. Its Quant Engine provides experimental automobile-stock predictions and historical Nifty 50 return analysis based on selected market data. These analytical outputs may be inaccurate, do not establish reliable future predictions and should not be treated as financial advice or trading recommendations. All simulated transactions are hypothetical and do not represent actual market orders.
     </p>
   </div>
 

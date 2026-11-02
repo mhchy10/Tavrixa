@@ -734,7 +734,7 @@ export default function AutomotiveML() {
       {/* HISTORICAL PRICE CHART */}
 
       {history && !loading && (
-        <section className="rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
+       <section className="quant-chart-panel rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
           <div className="mb-4">
             <h2 className="font-semibold text-white">
               Historical Price & Moving Averages
@@ -757,7 +757,7 @@ export default function AutomotiveML() {
       {/* BACKTEST CHART */}
 
       {backtest && !loading && (
-        <section className="rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
+        <section className="quant-chart-panel rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
           <div className="mb-4">
             <h2 className="font-semibold text-white">
               Actual vs Predicted Returns
@@ -784,16 +784,16 @@ export default function AutomotiveML() {
       {metrics && (
         <section className="space-y-4">
           <div>
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="quant-section-heading text-lg font-semibold text-slate-900 dark:text-white">
               Model Evaluation
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+           <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
               Overall performance on unseen chronological test data.
             </p>
           </div>
 
           <div>
-            <h3 className="mb-3 text-sm font-medium text-slate-300">
+            <h3 className="mb-3text-sm font-medium text-slate-700 dark:text-slate-300">
               Logistic Regression
             </h3>
 
@@ -818,7 +818,7 @@ export default function AutomotiveML() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-sm font-medium text-slate-300">
+            <h3 className="mb-3 text-sm font-medium text-slate-700 dark:text-slate-300">
               Multiple Linear Regression
             </h3>
 
@@ -919,10 +919,10 @@ export default function AutomotiveML() {
       {performance && (
         <section className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-4 sm:p-5">
           <div className="mb-4">
-            <h2 className="font-semibold text-white">
+            <h2 className="quant-section-heading font-semibold text-slate-900 dark:text-white">
               Company-wise Model Performance
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+           <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
               Logistic Regression results across the 10 automobile companies.
             </p>
           </div>
@@ -976,7 +976,7 @@ export default function AutomotiveML() {
 
       {metrics && (
         <section className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
-          <h2 className="font-semibold text-white">
+          <h2 className="quant-section-heading font-semibold text-slate-900 dark:text-white">
             Research Dataset
           </h2>
 
@@ -999,7 +999,7 @@ export default function AutomotiveML() {
             />
           </div>
 
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-4 text-xs text-slate-600 dark:text-slate-400">
             Chronological 80/20 training and testing split. Test period
             begins {metrics.test_start_date}. Basket return represents
             the equal-weight basket of the selected automobile stocks.
@@ -1013,10 +1013,10 @@ export default function AutomotiveML() {
 
       <section className="space-y-5">
         <div>
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="quant-section-heading text-xl font-bold text-slate-900 dark:text-white">
             Nifty 50 Impact Analysis
           </h2>
-          <p className="mt-1 text-sm text-slate-400">
+         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Examining the relationship between returns of 10 selected
             automobile stocks and the next trading session's Nifty 50 return.
           </p>
@@ -1205,7 +1205,7 @@ export default function AutomotiveML() {
         )}
 
         {niftyBacktest && (
-          <div className="rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
+         <div className="quant-chart-panel rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
             <div className="mb-4">
               <h3 className="font-semibold text-white">
                 Nifty 50 · Actual vs Predicted
