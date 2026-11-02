@@ -113,6 +113,71 @@ export interface ModelMetrics {
   };
 }
 
+
+export interface NiftyPrediction {
+  prediction_status: string;
+  input_date: string;
+  target_date: string;
+  actual_return: number;
+  predicted_return: number;
+  baseline_prediction: number;
+  actual_return_percent: number;
+  predicted_return_percent: number;
+  note: string;
+}
+
+export interface NiftyStockRelationship {
+  Ticker: string;
+  Standardized_Coefficient: number;
+  Train_Period_Correlation: number;
+  Relationship: "Positive" | "Negative";
+  Absolute_Coefficient: number;
+}
+
+export interface NiftyRelationshipsResponse {
+  total_stocks: number;
+  data: NiftyStockRelationship[];
+}
+
+export interface NiftyMetrics {
+  model: string;
+  input_features: string[];
+  target: string;
+  split: string;
+  total_records: number;
+  training_records: number;
+  testing_records: number;
+  training_start: string;
+  training_end: string;
+  testing_input_start: string;
+  testing_target_end: string;
+  model_metrics: {
+    MAE: number;
+    RMSE: number;
+    R2: number;
+  };
+  baseline_metrics: {
+    MAE: number;
+    RMSE: number;
+    R2: number;
+  };
+}
+
+
+export interface NiftyBacktestRecord {
+  Input_Date: string;
+  Target_Date: string;
+  Actual_Nifty_Return: number;
+  Predicted_Nifty_Return: number;
+  Baseline_Prediction: number;
+}
+
+export interface NiftyBacktestResponse {
+  records: number;
+  data: NiftyBacktestRecord[];
+}
+
+
 // ---------------------------------------
 // API REQUEST HELPER
 // ---------------------------------------
@@ -165,4 +230,22 @@ export const getMLBacktest = (ticker?: string, limit = 500) => {
 export const getMLCompanyPerformance = () =>
   apiRequest<CompanyPerformanceResponse>(
     "/api/company-performance"
+  );
+
+
+
+export const getNiftyPrediction = () =>
+  apiRequest<NiftyPrediction>("/api/nifty50/predict");
+
+export const getNiftyRelationships = () =>
+  apiRequest<NiftyRelationshipsResponse>(
+    "/api/nifty50/relationships"
+  );
+
+export const getNiftyMetrics = () =>
+  apiRequest<NiftyMetrics>("/api/nifty50/metrics");
+
+export const getNiftyBacktest = (limit = 100) =>
+  apiRequest<NiftyBacktestResponse>(
+    `/api/nifty50/backtest?limit=${limit}`
   );

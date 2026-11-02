@@ -20,6 +20,12 @@ DATA_FILE = DATA_DIR / "market_history.csv"
 PREDICTIONS_FILE = DATA_DIR / "model_predictions.csv"
 PERFORMANCE_FILE = DATA_DIR / "stockwise_evaluation.csv"
 
+NIFTY_MODEL_FILE = MODEL_DIR / "nifty50_regression.joblib"
+NIFTY_METRICS_FILE = DATA_DIR / "nifty50_model_metrics.json"
+NIFTY_RELATIONSHIPS_FILE = DATA_DIR / "nifty50_stock_relationships.csv"
+NIFTY_PREDICTIONS_FILE = DATA_DIR / "nifty50_predictions.csv"
+NIFTY_DATA_FILE = DATA_DIR / "nifty50_impact_dataset.csv"
+
 FEATURES = [
     "daily_return",
     "return_5d",
@@ -47,6 +53,12 @@ logistic_model = joblib.load(
 
 with open(MODEL_DIR / "model_metrics.json") as file:
     metrics = json.load(file)
+
+# New Nifty 50 model
+nifty_model = joblib.load(NIFTY_MODEL_FILE)
+
+with open(NIFTY_METRICS_FILE) as file:
+    nifty_metrics = json.load(file)
 
 # ---------------------------------------
 # FASTAPI APPLICATION
@@ -341,6 +353,85 @@ def get_company_performance():
         "data": clean_records(df)
     }
 
+
+# ---------------------------------------
+# NIFTY 50 ML ANALYSIS
+# ---------------------------------------
+
+@app.get("/api/nifty50/predict")
+def get_latest_nifty_prediction():
+
+    if not NIFTY_PREDICTIONS_FILE.exists():
+        raise HTTPException(
+            status_code=500,
+            detail="Nifty 50 predictions not found"
+        )
+
+    df = pd.read_csv(NIFTY_PREDICTIONS_FILE)
+
+    if df.empty:
+        raise HTTPException(
+            status_code=404,
+            detail="No Nifty 50 predictions available"
+        )
+
+    latest = df.sort_values("Target_Date").iloc[-1]
+
+    return {
+        "prediction_status": "historical_out_of_sample",
+        "input_date": latest["Input_Date"],
+        "target_date": latest["Target_Date"],
+        "actual_return": float(latest["Actual_Nifty_Return"]),
+        "predicted_return": float(latest["Predicted_Nifty_Return"]),
+        "baseline_prediction": float(latest["Baseline_Prediction"]),
+        "actual_return_percent": float(latest["Actual_Nifty_Return"]) * 100,
+        "predicted_return_percent": float(latest["Predicted_Nifty_Return"]) * 100,
+        "note": "Historical out-of-sample prediction, not a live forecast."
+    }
+
+
+@app.get("/api/nifty50/relationships")
+def get_nifty_relationships():
+
+    if not NIFTY_RELATIONSHIPS_FILE.exists():
+        raise HTTPException(
+            status_code=500,
+            detail="Nifty 50 relationship data not found"
+        )
+
+    df = pd.read_csv(NIFTY_RELATIONSHIPS_FILE)
+
+    return {
+        "total_stocks": len(df),
+        "data": clean_records(df)
+    }
+
+
+@app.get("/api/nifty50/metrics")
+def get_nifty_metrics():
+
+    return nifty_metrics
+
+
+@app.get("/api/nifty50/backtest")
+def get_nifty_backtest(
+    limit: int = Query(default=100, ge=1, le=500)
+):
+
+    if not NIFTY_PREDICTIONS_FILE.exists():
+        raise HTTPException(
+            status_code=500,
+            detail="Nifty 50 predictions not found"
+        )
+
+    df = pd.read_csv(NIFTY_PREDICTIONS_FILE)
+
+    df = df.sort_values("Target_Date").tail(limit)
+
+    return {
+        "records": len(df),
+        "data": clean_records(df)
+    }
 
 # ---------------------------------------
 # INDIVIDUAL STOCK PREDICTION

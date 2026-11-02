@@ -20,7 +20,17 @@ import {
   type BacktestResponse,
   type ModelMetrics,
   type CompanyPerformanceResponse,
+
+  getNiftyPrediction,
+  getNiftyRelationships,
+  getNiftyMetrics,
+  getNiftyBacktest,
+  type NiftyPrediction,
+  type NiftyRelationshipsResponse,
+  type NiftyMetrics,
+  type NiftyBacktestResponse,
 } from "./lib/mlApi";
+
 
 // ---------------------------------------
 // STOCKS
@@ -359,6 +369,87 @@ function BacktestChart({ result }: { result: BacktestResponse }) {
   );
 }
 
+
+
+function NiftyBacktestChart({
+  result,
+}: {
+  result: NiftyBacktestResponse;
+}) {
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = chartRef.current;
+    if (!container || !result.data.length) return;
+
+    const chart = createChart(container, {
+      autoSize: true,
+      height: 300,
+      layout: {
+        background: {
+          type: ColorType.Solid,
+          color: "#0e1623",
+        },
+        textColor: "#94a3b8",
+        fontFamily: "Inter, sans-serif",
+      },
+      grid: {
+        vertLines: { color: "rgba(148,163,184,0.05)" },
+        horzLines: { color: "rgba(148,163,184,0.08)" },
+      },
+      rightPriceScale: {
+        borderColor: "rgba(148,163,184,0.15)",
+      },
+      timeScale: {
+        borderColor: "rgba(148,163,184,0.15)",
+      },
+    });
+
+    const actualSeries = chart.addSeries(LineSeries, {
+      color: "#34d399",
+      lineWidth: 2,
+      title: "Actual",
+      priceLineVisible: false,
+    });
+
+    const predictedSeries = chart.addSeries(LineSeries, {
+      color: "#a78bfa",
+      lineWidth: 2,
+      title: "Predicted",
+      priceLineVisible: false,
+    });
+
+    actualSeries.setData(
+      result.data.map((row) => ({
+        time: chartTime(row.Target_Date),
+        value: row.Actual_Nifty_Return * 100,
+      }))
+    );
+
+    predictedSeries.setData(
+      result.data.map((row) => ({
+        time: chartTime(row.Target_Date),
+        value: row.Predicted_Nifty_Return * 100,
+      }))
+    );
+
+    chart.timeScale().fitContent();
+
+    return () => chart.remove();
+  }, [result]);
+
+  return (
+    <div>
+      <div className="mb-3 flex gap-5 text-xs">
+        <span className="text-emerald-400">● Actual Nifty return</span>
+        <span className="text-violet-400">● Predicted Nifty return</span>
+      </div>
+      <div ref={chartRef} className="w-full" />
+    </div>
+  );
+}
+
+
 // ---------------------------------------
 // REUSABLE METRIC CARD
 // ---------------------------------------
@@ -405,6 +496,22 @@ export default function AutomotiveML() {
   const [performance, setPerformance] =
     useState<CompanyPerformanceResponse | null>(null);
 
+    // Nifty 50 impact analysis
+  const [niftyPrediction, setNiftyPrediction] =
+    useState<NiftyPrediction | null>(null);
+
+  const [niftyRelationships, setNiftyRelationships] =
+    useState<NiftyRelationshipsResponse | null>(null);
+
+  const [niftyMetrics, setNiftyMetrics] =
+    useState<NiftyMetrics | null>(null);
+
+  const [niftyBacktest, setNiftyBacktest] =
+    useState<NiftyBacktestResponse | null>(null);
+
+  const [niftyLoading, setNiftyLoading] = useState(true);
+  const [niftyError, setNiftyError] = useState("");  
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -431,6 +538,51 @@ export default function AutomotiveML() {
     }
 
     loadDashboard();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+
+    // Load Nifty 50 impact analysis once.
+  useEffect(() => {
+    let active = true;
+
+    async function loadNiftyAnalysis() {
+      try {
+        const [
+          predictionData,
+          relationshipData,
+          metricsData,
+          backtestData,
+        ] = await Promise.all([
+          getNiftyPrediction(),
+          getNiftyRelationships(),
+          getNiftyMetrics(),
+          getNiftyBacktest(99),
+        ]);
+
+        if (active) {
+          setNiftyPrediction(predictionData);
+          setNiftyRelationships(relationshipData);
+          setNiftyMetrics(metricsData);
+          setNiftyBacktest(backtestData);
+        }
+      } catch (error) {
+        console.error("Nifty 50 analysis error:", error);
+
+        if (active) {
+          setNiftyError(
+            "Unable to load Nifty 50 impact analysis."
+          );
+        }
+      } finally {
+        if (active) setNiftyLoading(false);
+      }
+    }
+
+    loadNiftyAnalysis();
 
     return () => {
       active = false;
@@ -623,6 +775,9 @@ export default function AutomotiveML() {
           </p>
         </section>
       )}
+
+
+      
 
       {/* OVERALL MODEL PERFORMANCE */}
 
@@ -851,6 +1006,225 @@ export default function AutomotiveML() {
           </p>
         </section>
       )}
+
+
+      
+      {/* NIFTY 50 IMPACT ANALYSIS */}
+
+      <section className="space-y-5">
+        <div>
+          <h2 className="text-xl font-bold text-white">
+            Nifty 50 Impact Analysis
+          </h2>
+          <p className="mt-1 text-sm text-slate-400">
+            Examining the relationship between returns of 10 selected
+            automobile stocks and the next trading session's Nifty 50 return.
+          </p>
+        </div>
+
+        {niftyLoading && (
+          <p className="text-sm text-cyan-400">
+            Loading Nifty 50 analysis...
+          </p>
+        )}
+
+        {niftyError && (
+          <p className="text-sm text-red-400">{niftyError}</p>
+        )}
+
+        {!niftyLoading && niftyPrediction && (
+          <>
+            <div className="rounded-xl border border-amber-400/20 bg-amber-400/[0.04] p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-amber-400">
+                Historical out-of-sample prediction · Not a live forecast
+              </p>
+
+              <p className="mt-2 text-sm text-slate-300">
+                Automobile-stock inputs from {niftyPrediction.input_date}
+                {" "}were used to estimate the Nifty 50 return for{" "}
+                {niftyPrediction.target_date}.
+              </p>
+
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <MetricCard
+                  label="Actual Nifty Return"
+                  value={`${niftyPrediction.actual_return_percent.toFixed(4)}%`}
+                  description="Observed market return"
+                />
+
+                <MetricCard
+                  label="MLR Predicted Return"
+                  value={`${niftyPrediction.predicted_return_percent.toFixed(4)}%`}
+                  description="Model estimate"
+                />
+
+                <MetricCard
+                  label="Baseline Prediction"
+                  value={`${(niftyPrediction.baseline_prediction * 100).toFixed(4)}%`}
+                  description="Training-set mean return"
+                />
+              </div>
+            </div>
+          </>
+        )}
+
+        {niftyMetrics && (
+          <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+            <h3 className="font-semibold text-white">
+              Nifty 50 Regression Evaluation
+            </h3>
+
+            <p className="mt-1 text-xs text-slate-400">
+              Multiple Linear Regression compared with a mean-return baseline.
+              Chronological 80:20 split.
+            </p>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3">
+              <MetricCard
+                label="Model MAE"
+                value={decimal(niftyMetrics.model_metrics.MAE)}
+              />
+              <MetricCard
+                label="Baseline MAE"
+                value={decimal(niftyMetrics.baseline_metrics.MAE)}
+              />
+              <MetricCard
+                label="Model RMSE"
+                value={decimal(niftyMetrics.model_metrics.RMSE)}
+              />
+              <MetricCard
+                label="Baseline RMSE"
+                value={decimal(niftyMetrics.baseline_metrics.RMSE)}
+              />
+              <MetricCard
+                label="Model R²"
+                value={decimal(niftyMetrics.model_metrics.R2)}
+              />
+              <MetricCard
+                label="Baseline R²"
+                value={decimal(niftyMetrics.baseline_metrics.R2)}
+              />
+            </div>
+
+            <p className="mt-4 text-xs leading-relaxed text-slate-400">
+              The model has a slightly lower MAE than the baseline, but
+              higher RMSE and a negative R². It therefore does not
+              demonstrate reliable predictive improvement.
+            </p>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <MetricCard
+                label="Dataset Records"
+                value={String(niftyMetrics.total_records)}
+              />
+              <MetricCard
+                label="Training Records"
+                value={String(niftyMetrics.training_records)}
+              />
+              <MetricCard
+                label="Testing Records"
+                value={String(niftyMetrics.testing_records)}
+              />
+              <MetricCard
+                label="Input Stocks"
+                value={String(niftyMetrics.input_features.length)}
+              />
+            </div>
+          </div>
+        )}
+
+        {niftyRelationships && (
+          <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-5">
+            <h3 className="font-semibold text-white">
+              Individual Stock Relationships
+            </h3>
+
+            <p className="mt-1 text-xs text-slate-400">
+              Pearson correlation and standardized regression coefficients
+              calculated on the training period.
+            </p>
+
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[620px] text-left text-xs">
+                <thead>
+                  <tr className="border-b border-white/10 text-slate-400">
+                    <th className="px-3 py-3">Automobile Stock</th>
+                    <th className="px-3 py-3">Correlation</th>
+                    <th className="px-3 py-3">Std. Coefficient</th>
+                    <th className="px-3 py-3">Relationship</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {niftyRelationships.data.map((item) => {
+                    const company = stocks.find(
+                      (stock) => stock.ticker === item.Ticker
+                    );
+
+                    return (
+                      <tr
+                        key={item.Ticker}
+                        className="border-b border-white/[0.05] text-slate-300"
+                      >
+                        <td className="px-3 py-3">
+                          <p className="font-medium text-white">
+                            {company?.name ?? item.Ticker}
+                          </p>
+                          <p className="mt-1 text-[10px] text-slate-500">
+                            {item.Ticker}
+                          </p>
+                        </td>
+
+                        <td className="px-3 py-3 tabular-nums">
+                          {item.Train_Period_Correlation.toFixed(4)}
+                        </td>
+
+                        <td className="px-3 py-3 tabular-nums">
+                          {item.Standardized_Coefficient.toFixed(6)}
+                        </td>
+
+                        <td className={`px-3 py-3 font-medium ${
+                          item.Relationship === "Positive"
+                            ? "text-emerald-400"
+                            : "text-red-400"
+                        }`}>
+                          {item.Relationship}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mt-3 text-[10px] leading-relaxed text-slate-500">
+              These values describe statistical associations, not causation
+              or actual Nifty 50 index contribution weights.
+            </p>
+          </div>
+        )}
+
+        {niftyBacktest && (
+          <div className="rounded-xl border border-white/[0.07] bg-[#0e1623] p-4 sm:p-5">
+            <div className="mb-4">
+              <h3 className="font-semibold text-white">
+                Nifty 50 · Actual vs Predicted
+              </h3>
+              <p className="mt-1 text-xs text-slate-400">
+                Historical test-set results · {niftyBacktest.records} records
+              </p>
+            </div>
+
+            <NiftyBacktestChart result={niftyBacktest} />
+
+            <p className="mt-3 text-[10px] text-slate-500">
+              Daily actual and predicted Nifty 50 returns across the
+              chronological test period.
+            </p>
+          </div>
+        )}
+      </section>
+
 
       {/* DISCLAIMER */}
 

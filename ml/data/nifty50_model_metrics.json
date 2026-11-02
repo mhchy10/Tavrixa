@@ -1,0 +1,34 @@
+{
+    "model": "Multiple Linear Regression",
+    "input_features": [
+        "ASHOKLEY.NS",
+        "BAJAJ-AUTO.NS",
+        "BHARATFORG.NS",
+        "EICHERMOT.NS",
+        "HEROMOTOCO.NS",
+        "M&M.NS",
+        "MARUTI.NS",
+        "MOTHERSON.NS",
+        "TMPV.NS",
+        "TVSMOTOR.NS"
+    ],
+    "target": "Next trading session Nifty 50 return",
+    "split": "Chronological 80:20",
+    "total_records": 491,
+    "training_records": 392,
+    "testing_records": 99,
+    "training_start": "2024-11-05",
+    "training_end": "2026-06-09",
+    "testing_input_start": "2026-06-10",
+    "testing_target_end": "2026-11-02",
+    "model_metrics": {
+        "MAE": 0.005674297068197478,
+        "RMSE": 0.007588211954188912,
+        "R2": -0.025253050970954982
+    },
+    "baseline_metrics": {
+        "MAE": 0.005841275025983181,
+        "RMSE": 0.007496756290850013,
+        "R2": -0.0006885939689189602
+    }
+}
