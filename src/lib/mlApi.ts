@@ -178,6 +178,25 @@ export interface NiftyBacktestResponse {
 }
 
 
+export interface NiftyDailyRecord {
+  input_date: string;
+  target_date: string | null;
+  predicted_return: number;
+  actual_return: number | null;
+  prediction_error: number | null;
+  model_version: string;
+  status: "awaiting_actual" | "actual_recorded";
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NiftyDailyResponse {
+  latest: NiftyDailyRecord | null;
+  history: NiftyDailyRecord[];
+  total: number;
+}
+
+
 // ---------------------------------------
 // API REQUEST HELPER
 // ---------------------------------------
@@ -248,4 +267,10 @@ export const getNiftyMetrics = () =>
 export const getNiftyBacktest = (limit = 100) =>
   apiRequest<NiftyBacktestResponse>(
     `/api/nifty50/backtest?limit=${limit}`
+  );
+
+  
+export const getNiftyDailyPredictions = (limit = 30) =>
+  apiRequest<NiftyDailyResponse>(
+    `/api/nifty50/daily?limit=${limit}`
   );

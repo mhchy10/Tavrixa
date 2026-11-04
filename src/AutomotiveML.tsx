@@ -29,6 +29,9 @@ import {
   type NiftyRelationshipsResponse,
   type NiftyMetrics,
   type NiftyBacktestResponse,
+  getNiftyDailyPredictions,
+  type NiftyDailyRecord,
+  type NiftyDailyResponse,
 } from "./lib/mlApi";
 
 
@@ -450,6 +453,97 @@ function NiftyBacktestChart({
 }
 
 
+function NiftyDailyChart({ records }: { records: NiftyDailyRecord[] }) {
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const reconciledRecords = records
+    .filter(
+      (row) => row.actual_return !== null && row.target_date !== null
+    )
+    .slice()
+    .sort((a, b) => a.target_date!.localeCompare(b.target_date!));
+
+  useEffect(() => {
+    const container = chartRef.current;
+
+    if (!container || !reconciledRecords.length) return;
+
+    const chart = createChart(container, {
+      autoSize: true,
+      height: 300,
+      layout: {
+        background: { type: ColorType.Solid, color: "#0e1623" },
+        textColor: "#94a3b8",
+        fontFamily: "Inter, sans-serif",
+      },
+      grid: {
+        vertLines: { color: "rgba(148,163,184,0.05)" },
+        horzLines: { color: "rgba(148,163,184,0.08)" },
+      },
+      rightPriceScale: {
+        borderColor: "rgba(148,163,184,0.15)",
+      },
+      timeScale: {
+        borderColor: "rgba(148,163,184,0.15)",
+      },
+    });
+
+    const actualSeries = chart.addSeries(LineSeries, {
+      color: "#34d399",
+      lineWidth: 2,
+      title: "Actual",
+      priceLineVisible: false,
+    });
+
+    const predictedSeries = chart.addSeries(LineSeries, {
+      color: "#a78bfa",
+      lineWidth: 2,
+      title: "Predicted",
+      priceLineVisible: false,
+    });
+
+    actualSeries.setData(
+      reconciledRecords.map((row) => ({
+        time: chartTime(row.target_date!),
+        value: row.actual_return! * 100,
+      }))
+    );
+
+    predictedSeries.setData(
+      reconciledRecords.map((row) => ({
+        time: chartTime(row.target_date!),
+        value: row.predicted_return * 100,
+      }))
+    );
+
+    chart.timeScale().fitContent();
+
+    return () => chart.remove();
+  }, [records]);
+
+  if (!reconciledRecords.length) {
+    return (
+      <div className="rounded-xl border border-white/10 bg-[#0e1623] p-6 text-center">
+        <p className="text-sm text-slate-400">
+          Actual-vs-predicted chart will appear after the next Nifty 50
+          session's actual return is recorded.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-3 flex flex-wrap gap-4 text-xs text-slate-400">
+        <span className="text-emerald-400">● Actual Nifty return</span>
+        <span className="text-violet-400">● Predicted Nifty return</span>
+        <span>Values in %</span>
+      </div>
+      <div ref={chartRef} className="w-full" />
+    </div>
+  );
+}
+
 // ---------------------------------------
 // REUSABLE METRIC CARD
 // ---------------------------------------
@@ -512,8 +606,13 @@ export default function AutomotiveML() {
   const [niftyLoading, setNiftyLoading] = useState(true);
   const [niftyError, setNiftyError] = useState("");  
 
+  const [niftyDaily, setNiftyDaily] = useState<NiftyDailyResponse | null>(null);
+  const [niftyDailyLoading, setNiftyDailyLoading] = useState(true);
+  const [niftyDailyError, setNiftyDailyError] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
 
   // Load overall model results once.
   useEffect(() => {
@@ -588,6 +687,37 @@ export default function AutomotiveML() {
       active = false;
     };
   }, []);
+
+
+  useEffect(() => {
+  let active = true;
+
+  async function loadNiftyDaily() {
+    try {
+      const data = await getNiftyDailyPredictions(30);
+
+      if (active) {
+        setNiftyDaily(data);
+      }
+    } catch (error) {
+      console.error("Nifty daily tracking error:", error);
+
+      if (active) {
+        setNiftyDailyError("Unable to load daily Nifty predictions.");
+      }
+    } finally {
+      if (active) {
+        setNiftyDailyLoading(false);
+      }
+    }
+  }
+
+  loadNiftyDaily();
+
+  return () => {
+    active = false;
+  };
+}, []);
 
   // Load selected company's prediction and historical data.
   useEffect(() => {
@@ -1022,6 +1152,159 @@ export default function AutomotiveML() {
           </p>
         </div>
 
+                {/* DAILY NIFTY 50 TRACKING */}
+
+        <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/[0.03] p-5">
+          <div className="mb-4">
+            <h3 className="font-semibold text-white">
+              Daily Nifty 50 Prediction Tracking
+            </h3>
+            <p className="mt-1 text-xs text-slate-400">
+              Rolling predictions from automobile-stock returns, with
+              actual market returns recorded after the next session.
+            </p>
+          </div>
+
+          {niftyDailyLoading && (
+            <p className="text-sm text-cyan-400">
+              Loading daily prediction records...
+            </p>
+          )}
+
+          {niftyDailyError && (
+            <p className="text-sm text-red-400">{niftyDailyError}</p>
+          )}
+
+          {!niftyDailyLoading && !niftyDailyError && (
+            <>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <MetricCard
+                  label="Latest Input Date"
+                  value={niftyDaily?.latest?.input_date ?? "No records"}
+                  description="Automobile-stock data date"
+                />
+
+                <MetricCard
+                  label="Predicted Nifty Return"
+                  value={
+                    niftyDaily?.latest
+                      ? percent(niftyDaily.latest.predicted_return)
+                      : "N/A"
+                  }
+                  description="Estimated next-session return"
+                />
+
+                <MetricCard
+                  label="Actual Nifty Return"
+                  value={
+                    niftyDaily?.latest?.actual_return !== null &&
+                    niftyDaily?.latest?.actual_return !== undefined
+                      ? percent(niftyDaily.latest.actual_return)
+                      : "Awaiting next session"
+                  }
+                  description="Observed next-session return"
+                />
+
+                <MetricCard
+                  label="Prediction Status"
+                  value={
+                    niftyDaily?.latest?.status === "actual_recorded"
+                      ? "Actual recorded"
+                      : niftyDaily?.latest
+                        ? "Awaiting actual"
+                        : "No records"
+                  }
+                  description="Latest prediction lifecycle"
+                />
+              </div>
+
+              <div className="mt-5">
+                <h4 className="mb-3 text-sm font-semibold text-white">
+                  Daily Actual vs Predicted Returns
+                </h4>
+
+                <NiftyDailyChart
+                  records={niftyDaily?.history ?? []}
+                />
+              </div>
+
+                            {/* DAILY PREDICTION HISTORY */}
+
+              <div className="mt-6">
+                <h4 className="mb-3 text-sm font-semibold text-white">
+                  Prediction History
+                </h4>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[750px] text-left text-xs">
+                    <thead>
+                      <tr className="border-b border-white/10 text-slate-400">
+                        <th className="px-3 py-3">Input Date</th>
+                        <th className="px-3 py-3">Target Date</th>
+                        <th className="px-3 py-3">Predicted Return</th>
+                        <th className="px-3 py-3">Actual Return</th>
+                        <th className="px-3 py-3">Prediction Error</th>
+                        <th className="px-3 py-3">Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {(niftyDaily?.history ?? []).map((row) => (
+                        <tr
+                          key={row.input_date}
+                          className="border-b border-white/[0.05] text-slate-300"
+                        >
+                          <td className="px-3 py-3">{row.input_date}</td>
+                          <td className="px-3 py-3">
+                            {row.target_date ?? "Pending"}
+                          </td>
+                          <td className="px-3 py-3 tabular-nums">
+                            {percent(row.predicted_return)}
+                          </td>
+                          <td className="px-3 py-3 tabular-nums">
+                            {row.actual_return !== null
+                              ? percent(row.actual_return)
+                              : "Awaiting"}
+                          </td>
+                          <td className="px-3 py-3 tabular-nums">
+                            {row.prediction_error !== null
+                              ? percent(row.prediction_error)
+                              : "—"}
+                          </td>
+                          <td className="px-3 py-3">
+                            <span
+                              className={
+                                row.status === "actual_recorded"
+                                  ? "text-emerald-400"
+                                  : "text-amber-400"
+                              }
+                            >
+                              {row.status === "actual_recorded"
+                                ? "Actual recorded"
+                                : "Awaiting actual"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+
+                      {!niftyDaily?.history.length && (
+                        <tr>
+                          <td
+                            colSpan={6}
+                            className="px-3 py-5 text-center text-slate-500"
+                          >
+                            No daily prediction records available.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
         {niftyLoading && (
           <p className="text-sm text-cyan-400">
             Loading Nifty 50 analysis...
@@ -1036,14 +1319,15 @@ export default function AutomotiveML() {
           <>
             <div className="rounded-xl border border-amber-400/20 bg-amber-400/[0.04] p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-amber-400">
-                Historical out-of-sample prediction · Not a live forecast
+              Historical Test-Set Prediction · October 30, 2026
               </p>
 
-              <p className="mt-2 text-sm text-slate-300">
-                Automobile-stock inputs from {niftyPrediction.input_date}
-                {" "}were used to estimate the Nifty 50 return for{" "}
-                {niftyPrediction.target_date}.
-              </p>
+             <p className="mt-2 text-sm text-slate-300">
+  This represents the final observation from the historical test dataset.
+  Automobile-stock returns from {niftyPrediction.input_date}
+  {" "}were used to estimate the Nifty 50 return for{" "}
+  {niftyPrediction.target_date}.
+</p>
 
               <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <MetricCard
