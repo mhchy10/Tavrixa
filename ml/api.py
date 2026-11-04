@@ -1,4 +1,5 @@
-
+import os
+from supabase import create_client
 import joblib
 import json
 import numpy as np
@@ -432,6 +433,44 @@ def get_nifty_backtest(
         "records": len(df),
         "data": clean_records(df)
     }
+
+
+def get_daily_supabase():
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+    if not url or not key:
+        raise HTTPException(
+            status_code=503,
+            detail="Supabase environment variables are not configured"
+        )
+
+    return create_client(url, key)
+
+
+@app.get("/api/nifty50/daily")
+def get_daily_nifty_predictions(limit: int = Query(default=30, ge=1, le=365)):
+    try:
+        supabase = get_daily_supabase()
+
+        response = (
+            supabase.table("nifty50_daily_predictions")
+            .select("*")
+            .order("input_date", desc=True)
+            .limit(limit)
+            .execute()
+        )
+
+        records = response.data or []
+
+        return {
+            "latest": records[0] if records else None,
+            "history": records,
+            "total": len(records)
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ---------------------------------------
 # INDIVIDUAL STOCK PREDICTION
