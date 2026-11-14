@@ -2306,9 +2306,7 @@ const technologyGroups = [
           Tavrixa <span className="text-cyan-300">·</span> Clarity in every move
         </p>
 
-        <p className="mt-2 text-[10px] text-slate-600">
-          An academic project by the BVoc Information Technology team · 2026
-        </p>
+       
 
         <p
           title="MHCx — maker's mark"
