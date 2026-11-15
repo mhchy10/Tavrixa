@@ -1,6 +1,8 @@
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
+from dotenv import load_dotenv
+from pathlib import Path
 
 import os
 import joblib
@@ -9,6 +11,8 @@ import pandas as pd
 
 from pathlib import Path
 from supabase import create_client
+
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 # ---------------------------------------
 # CONFIGURATION
